@@ -13,7 +13,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".main"/>
+        <activity 
+        	android:name=".main"
+        	android:screenOrientation="portrait"
+        />
+        <activity android:name=".More"/>
+        <activity android:name=".temp"/>
 
     </application>
 </manifest>

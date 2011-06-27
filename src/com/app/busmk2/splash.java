@@ -8,7 +8,7 @@ import android.os.Handler;
 public class splash extends Activity {
 	
 	protected boolean _active = true;
-	protected int _splashTime = 2300;
+	protected int _splashTime = 2000;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

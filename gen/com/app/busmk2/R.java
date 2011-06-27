@@ -14,20 +14,21 @@ public final class R {
         public static final int about_active=0x7f020000;
         public static final int about_inactive=0x7f020001;
         public static final int background=0x7f020002;
-        public static final int circle_active=0x7f020003;
-        public static final int circle_inactive=0x7f020004;
-        public static final int ic_tab_about=0x7f020005;
-        public static final int ic_tab_other=0x7f020006;
-        public static final int icon=0x7f020007;
-        public static final int line=0x7f020008;
-        public static final int line_shadow=0x7f020009;
-        public static final int list=0x7f02000a;
-        public static final int list_shadow=0x7f02000b;
-        public static final int map=0x7f02000c;
+        public static final int contact_active=0x7f020003;
+        public static final int contact_inactive=0x7f020004;
+        public static final int help_active=0x7f020005;
+        public static final int help_inactive=0x7f020006;
+        public static final int ic_tab_about=0x7f020007;
+        public static final int ic_tab_contact=0x7f020008;
+        public static final int ic_tab_help=0x7f020009;
+        public static final int icon=0x7f02000a;
+        public static final int line_shadow=0x7f02000b;
+        public static final int list_shadow=0x7f02000c;
         public static final int map_shadow=0x7f02000d;
-        public static final int raspored=0x7f02000e;
+        public static final int more=0x7f02000e;
         public static final int raspored_shadow=0x7f02000f;
         public static final int splash=0x7f020010;
+        public static final int upper_logo=0x7f020011;
     }
     public static final class id {
         public static final int lines=0x7f050002;
@@ -37,7 +38,9 @@ public final class R {
     }
     public static final class layout {
         public static final int main=0x7f030000;
-        public static final int splash=0x7f030001;
+        public static final int more_tab=0x7f030001;
+        public static final int splash=0x7f030002;
+        public static final int temp=0x7f030003;
     }
     public static final class string {
         public static final int app_name=0x7f040001;

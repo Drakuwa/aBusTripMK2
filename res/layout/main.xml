@@ -8,17 +8,13 @@
 			android:layout_width="wrap_content"
 			android:layout_height="match_parent"
 			android:orientation="vertical">
-	<TextView 
+	<ImageView 
+			android:src="@drawable/upper_logo"
+			android:layout_gravity="center_horizontal"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
-			android:text="aBusTripMK2"
-			android:textColor="#ffcf10"
-			android:textStyle="bold"
-			android:typeface="serif"
-			android:gravity="center_horizontal"
-			android:layout_margin="10dip"
-			android:textSize="30dip"
-		/>
+			android:clickable="true"
+	/>
 
 	<TableLayout 
     android:layout_width="wrap_content"
@@ -28,21 +24,13 @@
     >
     
     <TableRow>
-		<TextView 
-			android:text="aBusTripMK2"
-			android:textColor="#ffcf10"
-			android:textStyle="bold"
-			android:typeface="sans"
-			android:gravity="center"
-			android:layout_margin="10dip"
-		/>
-	</TableRow>
-    
-    <TableRow>
     <ImageView
     	android:id="@+id/map"
     	android:src="@drawable/map_shadow"
-    	android:layout_margin="10dip"
+    	android:layout_marginTop="20dip"
+    	android:layout_marginBottom="5dip"
+    	android:layout_marginLeft="10dip"
+    	android:layout_marginRight="10dip"
     	android:layout_width="wrap_content" 
 		android:layout_height="wrap_content"
 		android:clickable="true"
@@ -51,7 +39,10 @@
     <ImageView
     	android:id="@+id/list"
     	android:src="@drawable/list_shadow"
-    	android:layout_margin="10dip"
+    	android:layout_marginTop="20dip"
+    	android:layout_marginBottom="5dip"
+    	android:layout_marginLeft="10dip"
+    	android:layout_marginRight="10dip"
     	android:layout_width="wrap_content" 
 		android:layout_height="wrap_content"
 		android:clickable="true"
@@ -62,7 +53,10 @@
     <ImageView
     	android:id="@+id/lines"
     	android:src="@drawable/line_shadow"
-    	android:layout_margin="10dip"
+    	android:layout_marginBottom="20dip"
+    	android:layout_marginTop="5dip"
+    	android:layout_marginLeft="10dip"
+    	android:layout_marginRight="10dip"
     	android:layout_width="wrap_content" 
 		android:layout_height="wrap_content"
 		android:clickable="true"
@@ -71,7 +65,10 @@
     <ImageView
     	android:id="@+id/raspored"
     	android:src="@drawable/raspored_shadow"
-    	android:layout_margin="10dip"
+    	android:layout_marginBottom="20dip"
+    	android:layout_marginTop="5dip"
+    	android:layout_marginLeft="10dip"
+    	android:layout_marginRight="10dip"
     	android:layout_width="wrap_content" 
 		android:layout_height="wrap_content"
 		android:clickable="true"
@@ -79,5 +76,13 @@
     </TableRow>
     
 </TableLayout>
+	<ImageView 
+    	android:src="@drawable/more"
+    	android:layout_width="wrap_content"
+    	android:layout_height="wrap_content"
+    	android:clickable="true"
+    	android:layout_gravity="right"
+    	android:layout_marginTop="10dip"
+    	/>
 </LinearLayout>
 </ScrollView>
