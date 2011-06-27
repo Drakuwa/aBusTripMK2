@@ -9,6 +9,7 @@
 			android:layout_height="match_parent"
 			android:orientation="vertical">
 	<ImageView 
+			android:id="@+id/upper"
 			android:src="@drawable/upper_logo"
 			android:layout_gravity="center_horizontal"
 			android:layout_width="wrap_content"
@@ -78,6 +79,7 @@
 </TableLayout>
 	<ImageView 
     	android:src="@drawable/more"
+    	android:id="@+id/more"
     	android:layout_width="wrap_content"
     	android:layout_height="wrap_content"
     	android:clickable="true"
