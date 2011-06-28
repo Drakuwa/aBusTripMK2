@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -38,7 +39,7 @@ public class main extends Activity {
 		linii.setOnClickListener(new OnClickListener() {
 			public void onClick(View v2) {
 				Intent myIntent = new Intent();
-				myIntent.setClassName("com.app.busmk2", "com.app.busmk2.temp");
+				myIntent.setClassName("com.app.busmk2", "com.app.busmk2.lines");
 				startActivity(myIntent);
 			}
 		});
@@ -46,8 +47,8 @@ public class main extends Activity {
 		ImageView raspored = (ImageView) findViewById(R.id.raspored);
 		raspored.setOnClickListener(new OnClickListener() {
 			public void onClick(View v2) {
-				Intent myIntent = new Intent();
-				myIntent.setClassName("com.app.busmk2", "com.app.busmk2.temp");
+				Intent myIntent = new Intent(Intent.ACTION_VIEW, Uri
+						.parse("http://jsp.com.mk/VozenRed.aspx"));
 				startActivity(myIntent);
 			}
 		});
@@ -68,26 +69,24 @@ public class main extends Activity {
 			}
 		});
 	}
-	
-	private void exit_dialog(){  
-	   	 AlertDialog.Builder builder = new AlertDialog.Builder(this);  
-	   	 builder.setMessage("Are you sure you want to exit?")
-	   	 	  .setIcon(R.drawable.icon)
-	          .setTitle(R.string.app_name)
-	   	      .setCancelable(false)  
-	   	      .setPositiveButton("OK",  
-	   	           new DialogInterface.OnClickListener(){  
-	   	           public void onClick(DialogInterface dialog, int id){  
-	   	                finish();  
-	   	           }  
-	   	      });  
-	   	      builder.setNegativeButton("Cancel",  
-	   	           new DialogInterface.OnClickListener(){  
-	   	           public void onClick(DialogInterface dialog, int id){  
-	   	                dialog.cancel();  
-	   	           }  
-	   	      });  
-	   	 AlertDialog alert = builder.create();  
-	   	 alert.show();  
-	   	 }
+
+	private void exit_dialog() {
+		AlertDialog.Builder builder = new AlertDialog.Builder(this);
+		builder.setMessage("Are you sure you want to exit?").setIcon(
+				R.drawable.icon).setTitle(R.string.app_name).setCancelable(
+				false).setPositiveButton("OK",
+				new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialog, int id) {
+						finish();
+					}
+				});
+		builder.setNegativeButton("Cancel",
+				new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialog, int id) {
+						dialog.cancel();
+					}
+				});
+		AlertDialog alert = builder.create();
+		alert.show();
+	}
 }

@@ -20,6 +20,19 @@
         <activity android:name=".More"/>
         <activity android:name=".temp"/>
         <activity android:name=".list"/>
+        <activity android:name=".lines"/>
+        <activity android:name="a12"/>
+        <activity android:name="a15"/>
+        <activity android:name="a19"/>
+        <activity android:name="a2"/>
+        <activity android:name="a22"/>
+        <activity android:name="a24"/>
+        <activity android:name="a3"/>
+        <activity android:name="a41"/>
+        <activity android:name="a5"/>
+        <activity android:name="a65b"/>
+        <activity android:name="a7"/>
+        <activity android:name="a8"/>
 
     </application>
 </manifest>
