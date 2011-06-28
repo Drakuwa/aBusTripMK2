@@ -26,9 +26,10 @@ public final class R {
         public static final int list_shadow=0x7f02000c;
         public static final int map_shadow=0x7f02000d;
         public static final int more=0x7f02000e;
-        public static final int raspored_shadow=0x7f02000f;
-        public static final int splash=0x7f020010;
-        public static final int upper_logo=0x7f020011;
+        public static final int opstini_template=0x7f02000f;
+        public static final int raspored_shadow=0x7f020010;
+        public static final int splash=0x7f020011;
+        public static final int upper_logo=0x7f020012;
     }
     public static final class id {
         public static final int lines=0x7f050003;
