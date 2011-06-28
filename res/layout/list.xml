@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  android:layout_width="fill_parent"
+  android:layout_height="wrap_content"
+  >
+<LinearLayout
+  android:layout_width="fill_parent"
+  android:layout_height="fill_parent"
+  android:orientation="vertical"
+  android:background="@drawable/background">
+	
+	<ImageView 
+		android:id="@+id/op_aerodrom"
+		android:src="@drawable/op_aerodrom"
+		android:layout_gravity="center_horizontal"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:clickable="true"
+	/>
+	
+	<ImageView 
+		android:id="@+id/op_butel"
+		android:src="@drawable/op_butel"
+		android:layout_gravity="center_horizontal"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:clickable="true"
+	/>
+	
+	<ImageView 
+		android:id="@+id/op_gazibaba"
+		android:src="@drawable/op_gazibaba"
+		android:layout_gravity="center_horizontal"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:clickable="true"
+	/>
+	
+	<ImageView 
+		android:id="@+id/op_gpetrov"
+		android:src="@drawable/op_gpetrov"
+		android:layout_gravity="center_horizontal"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:clickable="true"
+	/>
+	
+	<ImageView 
+		android:id="@+id/op_karpos"
+		android:src="@drawable/op_karpos"
+		android:layout_gravity="center_horizontal"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:clickable="true"
+	/>
+	
+	<ImageView 
+		android:id="@+id/op_kvoda"
+		android:src="@drawable/op_kvoda"
+		android:layout_gravity="center_horizontal"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:clickable="true"
+	/>
+	
+	<ImageView 
+		android:id="@+id/op_centar"
+		android:src="@drawable/op_centar"
+		android:layout_gravity="center_horizontal"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:clickable="true"
+	/>
+	
+	<ImageView 
+		android:id="@+id/op_cair"
+		android:src="@drawable/op_cair"
+		android:layout_gravity="center_horizontal"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:clickable="true"
+	/>
+	
+	<ImageView 
+		android:id="@+id/op_shutka"
+		android:src="@drawable/op_shutka"
+		android:layout_gravity="center_horizontal"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:clickable="true"
+	/>
+	
+  
+</LinearLayout>
+</ScrollView>
