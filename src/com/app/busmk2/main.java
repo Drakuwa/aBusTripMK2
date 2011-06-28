@@ -29,7 +29,7 @@ public class main extends Activity {
 		lista.setOnClickListener(new OnClickListener() {
 			public void onClick(View v2) {
 				Intent myIntent = new Intent();
-				myIntent.setClassName("com.app.busmk2", "com.app.busmk2.temp");
+				myIntent.setClassName("com.app.busmk2", "com.app.busmk2.list");
 				startActivity(myIntent);
 			}
 		});

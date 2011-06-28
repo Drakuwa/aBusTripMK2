@@ -19,6 +19,7 @@
         />
         <activity android:name=".More"/>
         <activity android:name=".temp"/>
+        <activity android:name=".list"/>
 
     </application>
 </manifest>

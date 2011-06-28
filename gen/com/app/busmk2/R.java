@@ -26,24 +26,60 @@ public final class R {
         public static final int list_shadow=0x7f02000c;
         public static final int map_shadow=0x7f02000d;
         public static final int more=0x7f02000e;
-        public static final int opstini_template=0x7f02000f;
-        public static final int raspored_shadow=0x7f020010;
-        public static final int splash=0x7f020011;
-        public static final int upper_logo=0x7f020012;
+        public static final int op_aerodrom=0x7f02000f;
+        public static final int op_aerodrom_ac=0x7f020010;
+        public static final int op_aerodrom_in=0x7f020011;
+        public static final int op_butel=0x7f020012;
+        public static final int op_butel_ac=0x7f020013;
+        public static final int op_butel_in=0x7f020014;
+        public static final int op_cair=0x7f020015;
+        public static final int op_cair_ac=0x7f020016;
+        public static final int op_cair_in=0x7f020017;
+        public static final int op_centar=0x7f020018;
+        public static final int op_centar_ac=0x7f020019;
+        public static final int op_centar_in=0x7f02001a;
+        public static final int op_gazibaba=0x7f02001b;
+        public static final int op_gazibaba_ac=0x7f02001c;
+        public static final int op_gazibaba_in=0x7f02001d;
+        public static final int op_gpetrov=0x7f02001e;
+        public static final int op_gpetrov_ac=0x7f02001f;
+        public static final int op_gpetrov_in=0x7f020020;
+        public static final int op_karpos=0x7f020021;
+        public static final int op_karpos_ac=0x7f020022;
+        public static final int op_karpos_in=0x7f020023;
+        public static final int op_kvoda=0x7f020024;
+        public static final int op_kvoda_ac=0x7f020025;
+        public static final int op_kvoda_in=0x7f020026;
+        public static final int op_shutka=0x7f020027;
+        public static final int op_shutka_ac=0x7f020028;
+        public static final int op_shutka_in=0x7f020029;
+        public static final int raspored_shadow=0x7f02002a;
+        public static final int splash=0x7f02002b;
+        public static final int upper_logo=0x7f02002c;
     }
     public static final class id {
-        public static final int lines=0x7f050003;
-        public static final int list=0x7f050002;
-        public static final int map=0x7f050001;
-        public static final int more=0x7f050005;
-        public static final int raspored=0x7f050004;
-        public static final int upper=0x7f050000;
+        public static final int lines=0x7f05000c;
+        public static final int list=0x7f05000b;
+        public static final int map=0x7f05000a;
+        public static final int more=0x7f05000e;
+        public static final int op_aerodrom=0x7f050000;
+        public static final int op_butel=0x7f050001;
+        public static final int op_cair=0x7f050007;
+        public static final int op_centar=0x7f050006;
+        public static final int op_gazibaba=0x7f050002;
+        public static final int op_gpetrov=0x7f050003;
+        public static final int op_karpos=0x7f050004;
+        public static final int op_kvoda=0x7f050005;
+        public static final int op_shutka=0x7f050008;
+        public static final int raspored=0x7f05000d;
+        public static final int upper=0x7f050009;
     }
     public static final class layout {
-        public static final int main=0x7f030000;
-        public static final int more_tab=0x7f030001;
-        public static final int splash=0x7f030002;
-        public static final int temp=0x7f030003;
+        public static final int list=0x7f030000;
+        public static final int main=0x7f030001;
+        public static final int more_tab=0x7f030002;
+        public static final int splash=0x7f030003;
+        public static final int temp=0x7f030004;
     }
     public static final class string {
         public static final int app_name=0x7f040001;
