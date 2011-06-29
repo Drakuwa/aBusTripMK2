@@ -27,7 +27,7 @@
     <TableRow>
     <ImageView
     	android:id="@+id/map"
-    	android:src="@drawable/map_shadow"
+    	android:src="@drawable/map"
     	android:layout_marginTop="20dip"
     	android:layout_marginBottom="5dip"
     	android:layout_marginLeft="10dip"
@@ -39,7 +39,7 @@
     
     <ImageView
     	android:id="@+id/list"
-    	android:src="@drawable/list_shadow"
+    	android:src="@drawable/list"
     	android:layout_marginTop="20dip"
     	android:layout_marginBottom="5dip"
     	android:layout_marginLeft="10dip"
@@ -53,7 +53,7 @@
     <TableRow>
     <ImageView
     	android:id="@+id/lines"
-    	android:src="@drawable/line_shadow"
+    	android:src="@drawable/line"
     	android:layout_marginBottom="20dip"
     	android:layout_marginTop="5dip"
     	android:layout_marginLeft="10dip"
@@ -65,7 +65,7 @@
     
     <ImageView
     	android:id="@+id/raspored"
-    	android:src="@drawable/raspored_shadow"
+    	android:src="@drawable/rasp"
     	android:layout_marginBottom="20dip"
     	android:layout_marginTop="5dip"
     	android:layout_marginLeft="10dip"
