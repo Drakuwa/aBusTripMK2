@@ -38,6 +38,10 @@ public class MyItemizedOverlay extends ItemizedOverlay {
 	public int size() {
 		return mOverlays.size();
 	}
+	
+	public void clear() {
+		mOverlays.clear();
+	}
 
 	public MyItemizedOverlay(Drawable defaultMarker, Context context) {
 		super(boundCenterBottom(defaultMarker));
@@ -53,4 +57,19 @@ public class MyItemizedOverlay extends ItemizedOverlay {
 		dialog.show();
 		return true;
 	}
+	
+	/*
+    public boolean onTouchEvent(MotionEvent event, MapView mapView) 
+    {   
+        //---when user lifts his finger---
+        if (event.getAction() == 1) {                
+            p = mapView.getProjection().fromPixels(
+                (int) event.getX(),
+                (int) event.getY());
+            String msg = p.toString();
+            Log.d("xxx", msg);
+        }
+        return false;
+    }
+    */
 }
