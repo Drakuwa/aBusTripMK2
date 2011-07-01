@@ -32,6 +32,7 @@ public class a12 extends Activity {
         zoom.setVisibility(View.GONE);
         
         myWebView.getSettings().setSupportZoom(true);
+        myWebView.getSettings().setBuiltInZoomControls(true);
 
         this.myWebView.loadUrl("file:///android_asset/a12.jpg");
         //this.myWebView.setBackgroundResource(R.drawable.a12);
