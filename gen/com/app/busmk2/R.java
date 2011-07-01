@@ -96,6 +96,7 @@ public final class R {
         public static final int lines=0x7f050019;
         public static final int list=0x7f050018;
         public static final int map=0x7f050017;
+        public static final int mapview=0x7f05001c;
         public static final int more=0x7f05001b;
         public static final int op_aerodrom=0x7f05000d;
         public static final int op_butel=0x7f05000e;
@@ -114,9 +115,10 @@ public final class R {
         public static final int lines=0x7f030001;
         public static final int list=0x7f030002;
         public static final int main=0x7f030003;
-        public static final int more_tab=0x7f030004;
-        public static final int splash=0x7f030005;
-        public static final int temp=0x7f030006;
+        public static final int map=0x7f030004;
+        public static final int more_tab=0x7f030005;
+        public static final int splash=0x7f030006;
+        public static final int temp=0x7f030007;
     }
     public static final class string {
         public static final int app_name=0x7f040001;

@@ -4,8 +4,10 @@
       android:versionCode="1"
       android:versionName="1.0">
     <uses-sdk android:minSdkVersion="4" />
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application android:icon="@drawable/icon" android:label="@string/app_name">
+    <uses-library android:name="com.google.android.maps" />
         <activity android:name=".splash"
                   android:label="@string/app_name">
             <intent-filter>
@@ -13,6 +15,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        
         <activity 
         	android:name=".main"
         	android:screenOrientation="portrait"
@@ -21,6 +24,10 @@
         <activity android:name=".temp"/>
         <activity android:name=".list"/>
         <activity android:name=".lines"/>
+        <activity 
+        	android:name=".map"
+        	android:theme="@android:style/Theme.NoTitleBar"
+        />
         <activity android:name="a12"/>
         <activity android:name="a15"/>
         <activity android:name="a19"/>
