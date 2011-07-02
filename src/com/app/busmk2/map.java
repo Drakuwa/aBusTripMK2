@@ -1,5 +1,6 @@
 package com.app.busmk2;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -189,13 +190,20 @@ public class map extends MapActivity {
 			mapOverlays.add(stations);
 		}
 
-		/*
-		 * //TODO ova za first run kontrolerot da ne pozicionira nekade vo
-		 * skopje :D
-		 * 
-		 * mc.setZoom(14); mc.setCenter(anchor_Europe);
-		 * 
-		 */
+		//First run
+		boolean exists = (new File("/data/data/com.app.busmk2/notfirst")).exists(); 
+
+        if (!exists)
+        {
+        	GeoPoint initial = new GeoPoint(41995912, 21431454);
+        	mc.setZoom(15); mc.setCenter(initial);
+        	try {
+				new File("/data/data/com.app.busmk2/notfirst").createNewFile();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			Log.d("xxxx", "First RUN!!! :D");
+        }
 
 	}
 
