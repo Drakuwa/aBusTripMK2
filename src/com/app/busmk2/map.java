@@ -2,11 +2,11 @@ package com.app.busmk2;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -16,6 +16,7 @@ import android.graphics.drawable.Drawable;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -37,6 +38,8 @@ public class map extends MapActivity {
 	private MapController mc;
 	private MyItemizedOverlay person;
 	private MyItemizedOverlay stations;
+	private MyItemizedOverlay chosen_station;
+	private MyItemizedOverlay dest_station;
 	private List<Overlay> mapOverlays;
 	private GeoPoint current;
 
@@ -88,7 +91,56 @@ public class map extends MapActivity {
 
 		Drawable station_drawable = this.getResources().getDrawable(
 				R.drawable.busmarker);
-		stations = new MyItemizedOverlay(station_drawable, this);
+		stations = new MyItemizedOverlay(station_drawable, this) {
+
+			@Override
+			public boolean onTap(int index) {
+				final OverlayItem item = stations.get(index);
+				if (item.getTitle() != "My Location") {
+					AlertDialog.Builder dialog = new AlertDialog.Builder(
+							map.this);
+					dialog.setTitle(R.string.app_name).setIcon(R.drawable.icon);
+					dialog.setMessage("Кликнавте на: " + item.getTitle()
+							+ ", Дали сакате да стигнете до таму?");
+					dialog.setPositiveButton("Да!",
+							new DialogInterface.OnClickListener() {
+								public void onClick(DialogInterface dialog,
+										int id) {
+
+									if (current != null) {
+										int lon = item.getPoint()
+												.getLongitudeE6();
+										int lat = item.getPoint()
+												.getLatitudeE6();
+										String lons = Integer.toString(lon);
+										String lats = Integer.toString(lat);
+										// map mapa;
+										new calc_stanica().execute(item
+												.getTitle(), lons, lats);
+									} else {
+										final_dialog("Вашата моментална локација не е позната, Ве молиме почекајте, или поставете маркер");
+									}
+								}
+							});
+					dialog.setNegativeButton("Откажи",
+							new DialogInterface.OnClickListener() {
+								public void onClick(DialogInterface dialog,
+										int id) {
+									dialog.cancel();
+								}
+							});
+					AlertDialog alert = dialog.create();
+					alert.show();
+				}
+				return true;
+			}
+		};
+		Drawable final_drawable = this.getResources().getDrawable(
+				R.drawable.greenmarker);
+		chosen_station = new MyItemizedOverlay(final_drawable, this);
+		Drawable dest_drawable = this.getResources().getDrawable(
+				R.drawable.redmarker);
+		dest_station = new MyItemizedOverlay(dest_drawable, this);
 
 		mc = mapView.getController();
 
@@ -159,8 +211,8 @@ public class map extends MapActivity {
 	protected void onPause() {
 		lm.removeUpdates(ll);
 		super.onPause();
-		};
-	
+	};
+
 	private void createGpsDisabledAlert() {
 		AlertDialog.Builder builder = new AlertDialog.Builder(this);
 		builder
@@ -189,7 +241,7 @@ public class map extends MapActivity {
 		startActivity(gpsOptionsIntent);
 	}
 
-	//TODO moze da se izbrishe Clear Map, poshto valjda nema da treba...
+	// TODO moze da se izbrishe Clear Map, poshto valjda nema da treba...
 	@Override
 	public boolean onCreateOptionsMenu(final Menu pMenu) {
 		pMenu.add(0, MENU_MY_LOCATION, Menu.NONE, "My Location").setIcon(
@@ -219,15 +271,9 @@ public class map extends MapActivity {
 			return true;
 
 		case MENU_CLEAR_MAP:
-
-			// for (Iterator<OpenStreetMapViewOverlay> iter =
-			// mOsmv.getOverlays()
-			// .iterator(); iter.hasNext();) {
-			// Object o = iter.next();
-			// if (MyOverLay.class.getName().equals(o.getClass().getName())) {
-			// iter.remove();
-			// }
-			// }
+			dest_station.clear();
+			chosen_station.clear();
+			mapView.invalidate();
 			return true;
 
 		case MENU_PLACE:
@@ -254,8 +300,7 @@ public class map extends MapActivity {
 		case DIALOG_ABOUT_ID:
 			return new AlertDialog.Builder(map.this).setIcon(R.drawable.icon)
 					.setTitle(R.string.app_name).setMessage(
-							"Ова е тест порака...") 
-					.setPositiveButton("OK",
+							"Ова е тест порака...").setPositiveButton("OK",
 							new DialogInterface.OnClickListener() {
 								public void onClick(DialogInterface dialog,
 										int whichButton) {
@@ -315,8 +360,8 @@ public class map extends MapActivity {
 						(int) (loc.getLongitude() * 1000000));
 
 				current = p;
-				OverlayItem overlayitem_me = new OverlayItem(p,
-						"My Current Location...", "");
+				OverlayItem overlayitem_me = new OverlayItem(p, "My Location",
+						"");
 
 				person.clear();
 				person.addOverlay(overlayitem_me);
@@ -344,6 +389,280 @@ public class map extends MapActivity {
 
 		}
 
+	}
+
+	private void final_dialog(final String txt) {
+		AlertDialog.Builder builder = new AlertDialog.Builder(this);
+		builder.setMessage(txt).setIcon(R.drawable.busmarker).setTitle(
+				R.string.app_name).setCancelable(false).setPositiveButton(
+				"OK..", new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialog, int id) {
+					}
+				});
+		AlertDialog alert = builder.create();
+		alert.show();
+	}
+
+	private void draw(GeoPoint destGeoPoint, GeoPoint final_geo) {
+		dest_station.addOverlay(new OverlayItem(destGeoPoint, "Dest...", " "));
+		chosen_station.addOverlay(new OverlayItem(final_geo, "Fin...", " "));
+		mapOverlays.add(dest_station);
+		mapOverlays.add(chosen_station);
+	}
+
+	public class calc_stanica extends
+			AsyncTask<String, Void, ArrayList<String>> {
+		ProgressDialog dialog;
+
+		@Override
+		protected void onPreExecute() {
+			//TODO setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_NOSENSOR);
+			dialog = new ProgressDialog(map.this);
+			dialog.setTitle("Пресметуваме...");
+			dialog.setMessage("Ве молиме почекајте...");
+			dialog.setIndeterminate(true);
+			dialog.show();
+		}
+
+		protected ArrayList<String> doInBackground(String... vlezni) {
+
+			String itemdesc = vlezni[0];
+			String final_lon = vlezni[1];
+			String final_lat = vlezni[2];
+
+			DataBaseHelper db = new DataBaseHelper(null);
+			db = new DataBaseHelper(getApplicationContext());
+
+			try {
+				db.createDataBase();
+			} catch (IOException ioe) {
+				throw new Error("Unable to create database");
+			}
+			try {
+				db.openDataBase();
+			} catch (SQLException sqle) {
+				throw sqle;
+			}
+
+			db.getReadableDatabase();
+
+			double min = 2000;
+			GeoPoint g = null;
+			ArrayList<String> korisni_linii = new ArrayList<String>();
+			double glon = 0;
+			double glat = 0;
+			boolean b = false;
+			boolean d = false;
+
+			Cursor c = db.getStanica(itemdesc);
+			if (c.moveToFirst()) {
+				String _id = c.getString(0); // id na kliknata stanica...
+
+				// Log.d("xxx", "ID na Kliknata Stanica: " + _id);
+
+				Cursor c2 = db.getUsefulLinii(_id);
+				if (c2.moveToFirst()) {
+					do {
+						String id_korisna_linija = c2.getString(0);
+						// Log.d("xxx", "ID na Korisni Linie: " +
+						// id_korisna_linija);
+						int newmin = 3000;
+
+						Cursor br = db.getRbr(_id, id_korisna_linija);
+						int rbr_finaldest = br.getInt(0);
+
+						Cursor c3 = db.getUsefulStanici(id_korisna_linija);
+						if (c3.moveToFirst()) {
+							do {
+								String id_korisna_stanica = c3.getString(0);
+
+								Cursor br_2 = db.getRbr(id_korisna_stanica,
+										id_korisna_linija);
+								int rbr_currentdest = br_2.getInt(0);
+
+								Cursor nas_2 = db.getNasoka(id_korisna_stanica,
+										id_korisna_linija);
+								String nasoka_currentdest = nas_2.getString(0);
+
+								// Log.d("xxx", "ID na Korisni Stanice: " +
+								// id_korisna_stanica);
+
+								if (current == null) {
+									break;
+								}
+
+								Cursor c4 = db
+										.getLocationStanici(id_korisna_stanica);
+								// c4 ima samo eden rezultat
+								if (c4.moveToFirst()) {
+									glon = c4.getDouble(0);
+									glat = c4.getDouble(1);
+
+									int lat = (int) (glat * 1000000);
+									int lon = (int) (glon * 1000000);
+
+									GeoPoint stanica = new GeoPoint(lon, lat);
+
+									Location currentLoc = new Location(
+											"current");
+
+									currentLoc.setLatitude(current
+											.getLatitudeE6() / 1E6);
+									currentLoc.setLongitude(current
+											.getLongitudeE6() / 1E6);
+
+									Location stanicaLoc = new Location(
+											"stanica");
+
+									stanicaLoc.setLatitude(stanica
+											.getLatitudeE6() / 1E6);
+									stanicaLoc.setLongitude(stanica
+											.getLongitudeE6() / 1E6);
+
+									double rastojanie = currentLoc
+											.distanceTo(stanicaLoc);
+
+									// int rastojanie =
+									// 0;//current.distanceTo(stanica);
+
+									if (rbr_finaldest > rbr_currentdest
+											&& nasoka_currentdest
+													.equalsIgnoreCase("A")) {
+										if (min > rastojanie) {
+											min = rastojanie;
+											g = new GeoPoint(lat, lon);
+											d = true;
+											// Log.d("xxx"," KOORDINATI NA G: "
+											// + glon +" / "+ glat);
+										}
+									}
+
+									else if (rbr_finaldest < rbr_currentdest
+											&& nasoka_currentdest
+													.equalsIgnoreCase("B")) {
+										if (min > rastojanie) {
+											min = rastojanie;
+											g = new GeoPoint(lat, lon);
+											d = true;
+											Log.d("xxx", " KOORDINATI NA G: "
+													+ glon + " / " + glat);
+										}
+									}
+
+									if (min == rastojanie) {// najdena e linija
+										// shto pominuva na
+										// ista stanica
+										b = true;
+										Log
+												.d(
+														"xxx",
+														" VNATRE VO B rastojanie: "
+																+ rastojanie
+																+ "  Konachan minimum = "
+																+ min);
+									}
+									Log.d("xxx",
+											" RASTOJANIE do sekoja stanica: "
+													+ rastojanie
+													+ "  Nov minimum:  "
+													+ newmin
+													+ "  Konachan minimum = "
+													+ min);
+								}
+							} while (c3.moveToNext());
+						}
+
+						if (d) {
+							// Log.d("xxx",
+							// "VLEZENO E VO D!!! - za najden pomal minimum...");
+							korisni_linii.clear();
+							Cursor cX = db.getLinija(id_korisna_linija);
+							String ime_linija = cX.getString(0);
+							korisni_linii.add(ime_linija);
+							d = false;
+							b = false;
+						} else if (b) {
+							// Log.d("xxx",
+							// "VLEZENO E VO B!!! - za najden ist minimum...");
+							Cursor cX = db.getLinija(id_korisna_linija);
+							String ime_linija = cX.getString(0);
+							korisni_linii.add(ime_linija);
+							b = false;
+						}
+					} while (c2.moveToNext());
+				}
+			}
+			db.close();
+
+			ArrayList<String> izlezni = new ArrayList<String>();
+			String korlin = korisni_linii.toString();
+			String minim = Double.toString(min);
+
+			int lon = 0;
+			int lat = 0;
+			if (min < 2000) {
+				lon = g.getLongitudeE6();
+				lat = g.getLatitudeE6();
+			}
+			String closest_lon = Integer.toString(lon);
+			String closest_lat = Integer.toString(lat);
+
+			izlezni.add(minim);
+
+			izlezni.add(closest_lon);
+			izlezni.add(closest_lat);
+
+			izlezni.add(final_lon);
+			izlezni.add(final_lat);
+
+			izlezni.add(korlin);
+
+			return izlezni;
+		}
+
+		@Override
+		public void onPostExecute(ArrayList<String> izlezni) {
+			dialog.dismiss();
+			//TODO setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR);
+
+			String minim = izlezni.get(0);
+			double min = Double.parseDouble(minim);
+
+			String closest_lon = izlezni.get(1);
+			String closest_lat = izlezni.get(2);
+
+			int c_lon = Integer.parseInt(closest_lon);
+			int c_lat = Integer.parseInt(closest_lat);
+
+			GeoPoint g = new GeoPoint(c_lon, c_lat);
+
+			String final_lon = izlezni.get(3);
+			String final_lat = izlezni.get(4);
+
+			int f_lon = Integer.parseInt(final_lon);
+			int f_lat = Integer.parseInt(final_lat);
+
+			GeoPoint final_geo = new GeoPoint(f_lat, f_lon);
+
+			String korisni_linii = izlezni.get(5);
+
+			if (min < 2000) {
+
+				GeoPoint destGeoPoint = g;
+
+				// Log.d("DDD",
+				// "Geopointi shto se isprakjav: "+srcGeoPoint.toString() +" "+
+				// destGeoPoint.toString()+" "+final_geo.toString());
+
+				// TODO Obelezuvanje na krajnu stanicu
+				draw(destGeoPoint, final_geo);
+				mc.setCenter(current);
+
+				final_dialog("Појдете до означената постојка со црвено и почекајте автобус со број: "
+						+ korisni_linii);
+			} else
+				final_dialog("За жал нема постојка во Ваша близина што поминува од овде, побарајте нова станица...");
+		}
 	}
 
 }
