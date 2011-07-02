@@ -55,7 +55,6 @@ public class map extends MapActivity {
 
 	@Override
 	protected boolean isRouteDisplayed() {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
@@ -76,12 +75,6 @@ public class map extends MapActivity {
 		ll = new MyLocationListener();
 
 		lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000, 10, ll);
-
-		{// TODO some initial map overlays, ovakoj treba da se dodadev i crtanje
-			// na putishta (funkcija u MyItemizedOverlay...)
-			// u MyItemizedOverlay...
-
-		}
 
 		mapOverlays = mapView.getOverlays();
 
@@ -114,7 +107,7 @@ public class map extends MapActivity {
 												.getLatitudeE6();
 										String lons = Integer.toString(lon);
 										String lats = Integer.toString(lat);
-										// map mapa;
+										
 										new calc_stanica().execute(item
 												.getTitle(), lons, lats);
 									} else {
@@ -202,7 +195,6 @@ public class map extends MapActivity {
 		 * 
 		 * mc.setZoom(14); mc.setCenter(anchor_Europe);
 		 * 
-		 * Projection pr; pr = mapView.getProjection();
 		 */
 
 	}
@@ -241,7 +233,6 @@ public class map extends MapActivity {
 		startActivity(gpsOptionsIntent);
 	}
 
-	// TODO moze da se izbrishe Clear Map, poshto valjda nema da treba...
 	@Override
 	public boolean onCreateOptionsMenu(final Menu pMenu) {
 		pMenu.add(0, MENU_MY_LOCATION, Menu.NONE, "My Location").setIcon(
@@ -249,7 +240,7 @@ public class map extends MapActivity {
 		pMenu.add(0, MENU_CLEAR_MAP, Menu.NONE, "Clear Map").setIcon(
 				android.R.drawable.ic_menu_close_clear_cancel);
 		pMenu.add(0, MENU_PLACE, Menu.NONE, "Place Marker").setIcon(
-				android.R.drawable.ic_menu_close_clear_cancel);
+				android.R.drawable.ic_menu_myplaces);
 		pMenu.add(0, MENU_ABOUT, Menu.NONE, "About").setIcon(
 				android.R.drawable.ic_menu_info_details);
 
@@ -284,14 +275,11 @@ public class map extends MapActivity {
 			showDialog(DIALOG_ABOUT_ID);
 			return true;
 
-		default: // Map mode submenu items
-			// this.mOsmv.setRenderer(OpenStreetMapRendererInfo.values()[item
-			// .getItemId() - 1000]);
+		default: 
 		}
 		return false;
 	}
 
-	// TODO smeni poraka!
 	@Override
 	protected Dialog onCreateDialog(int id) {
 		Dialog dialog;
@@ -300,7 +288,7 @@ public class map extends MapActivity {
 		case DIALOG_ABOUT_ID:
 			return new AlertDialog.Builder(map.this).setIcon(R.drawable.icon)
 					.setTitle(R.string.app_name).setMessage(
-							"Ова е тест порака...").setPositiveButton("OK",
+							"Ова апликација користи мапи обезбедени од Google Inc.").setPositiveButton("OK",
 							new DialogInterface.OnClickListener() {
 								public void onClick(DialogInterface dialog,
 										int whichButton) {
@@ -375,17 +363,14 @@ public class map extends MapActivity {
 		}
 
 		public void onProviderDisabled(String provider) {
-			// TODO Auto-generated method stub
 
 		}
 
 		public void onProviderEnabled(String provider) {
-			// TODO Auto-generated method stub
 
 		}
 
 		public void onStatusChanged(String provider, int status, Bundle extras) {
-			// TODO Auto-generated method stub
 
 		}
 
@@ -654,7 +639,6 @@ public class map extends MapActivity {
 				// "Geopointi shto se isprakjav: "+srcGeoPoint.toString() +" "+
 				// destGeoPoint.toString()+" "+final_geo.toString());
 
-				// TODO Obelezuvanje na krajnu stanicu
 				draw(destGeoPoint, final_geo);
 				mc.setCenter(current);
 
