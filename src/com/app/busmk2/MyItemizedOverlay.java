@@ -2,10 +2,8 @@ package com.app.busmk2;
 
 import java.util.ArrayList;
 
-import android.app.AlertDialog;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
-
 import com.google.android.maps.ItemizedOverlay;
 import com.google.android.maps.OverlayItem;
 
@@ -23,7 +21,7 @@ public class MyItemizedOverlay extends ItemizedOverlay {
 		mOverlays.add(overlay);
 		populate();
 	}
-	
+
 	public void addOverlay(ArrayList<OverlayItem> items) {
 		mOverlays.addAll(items);
 		populate();
@@ -38,38 +36,17 @@ public class MyItemizedOverlay extends ItemizedOverlay {
 	public int size() {
 		return mOverlays.size();
 	}
-	
+
 	public void clear() {
 		mOverlays.clear();
+	}
+	
+	public OverlayItem get(int index) {
+		return mOverlays.get(index);
 	}
 
 	public MyItemizedOverlay(Drawable defaultMarker, Context context) {
 		super(boundCenterBottom(defaultMarker));
 		mContext = context;
 	}
-
-	@Override
-	protected boolean onTap(int index) {
-		OverlayItem item = mOverlays.get(index);
-		AlertDialog.Builder dialog = new AlertDialog.Builder(mContext);
-		dialog.setTitle(item.getTitle());
-		dialog.setMessage(item.getSnippet());
-		dialog.show();
-		return true;
-	}
-	
-	/*
-    public boolean onTouchEvent(MotionEvent event, MapView mapView) 
-    {   
-        //---when user lifts his finger---
-        if (event.getAction() == 1) {                
-            p = mapView.getProjection().fromPixels(
-                (int) event.getX(),
-                (int) event.getY());
-            String msg = p.toString();
-            Log.d("xxx", msg);
-        }
-        return false;
-    }
-    */
 }
