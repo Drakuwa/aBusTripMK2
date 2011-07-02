@@ -17,10 +17,7 @@
             </intent-filter>
         </activity>
         
-        <activity 
-        	android:name=".main"
-        	android:screenOrientation="portrait"
-        />
+        <activity android:name=".main" />
         <activity android:name=".More"/>
         <activity android:name=".temp"/>
         <activity android:name=".list"/>
@@ -28,6 +25,7 @@
         <activity 
         	android:name=".map"
         	android:theme="@android:style/Theme.NoTitleBar"
+        	android:screenOrientation="portrait"
         />
         <activity android:name="a12"/>
         <activity android:name="a15"/>
