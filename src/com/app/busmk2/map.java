@@ -643,10 +643,6 @@ public class map extends MapActivity {
 
 				GeoPoint destGeoPoint = g;
 
-				// Log.d("DDD",
-				// "Geopointi shto se isprakjav: "+srcGeoPoint.toString() +" "+
-				// destGeoPoint.toString()+" "+final_geo.toString());
-
 				draw(destGeoPoint, final_geo);
 				mc.setCenter(current);
 
