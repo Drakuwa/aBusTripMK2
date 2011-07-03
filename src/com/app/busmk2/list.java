@@ -4,8 +4,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import android.app.Activity;
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.os.Bundle;
@@ -25,7 +23,7 @@ public class list extends Activity {
 	ArrayList<String> butel = new ArrayList<String>();
 	ArrayList<String> shutka = new ArrayList<String>();
 
-	// Model model = new Model();
+	Model model = new Model(this);
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -59,6 +57,7 @@ public class list extends Activity {
 			myDb.getReadableDatabase();
 
 			Cursor c = myDb.getStanici();
+			
 			if (c.moveToFirst()) {
 				do {
 					String ime = c.getString(1);
@@ -121,146 +120,68 @@ public class list extends Activity {
 		ImageView aer = (ImageView) findViewById(R.id.op_aerodrom);
 		aer.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
-				create_list(aerodromlist);
+				model.create_list(aerodromlist);
 			}
 		});
 
 		ImageView but = (ImageView) findViewById(R.id.op_butel);
 		but.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
-				create_list(butellist);
+				model.create_list(butellist);
 			}
 		});
 
 		ImageView gzb = (ImageView) findViewById(R.id.op_gazibaba);
 		gzb.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
-				create_list(gazibabalist);
+				model.create_list(gazibabalist);
 			}
 		});
 
 		ImageView gpt = (ImageView) findViewById(R.id.op_gpetrov);
 		gpt.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
-				create_list(gjorcelist);
+				model.create_list(gjorcelist);
 			}
 		});
 
 		ImageView krp = (ImageView) findViewById(R.id.op_karpos);
 		krp.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
-				create_list(karposlist);
+				model.create_list(karposlist);
 			}
 		});
 
 		ImageView kvd = (ImageView) findViewById(R.id.op_kvoda);
 		kvd.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
-				create_list(kvodalist);
+				model.create_list(kvodalist);
 			}
 		});
 
 		ImageView cnt = (ImageView) findViewById(R.id.op_centar);
 		cnt.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
-				create_list(centarlist);
+				model.create_list(centarlist);
 			}
 		});
 
 		ImageView cai = (ImageView) findViewById(R.id.op_cair);
 		cai.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
-				create_list(cairlist);
+				model.create_list(cairlist);
 			}
 		});
 
 		ImageView stk = (ImageView) findViewById(R.id.op_shutka);
 		stk.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
-				create_list(shutkalist);
+				model.create_list(shutkalist);
 			}
 		});
 	}
 
-	public void create_list(final String[] items) {
+	
 
-		AlertDialog.Builder builder = new AlertDialog.Builder(this);
-		builder.setTitle("Избери станица:");
-		builder.setItems(items, new DialogInterface.OnClickListener() {
-			public void onClick(DialogInterface dialog, int item) {
-				String txt = items[item];
-				createDialog(txt);
-			}
-		});
-		AlertDialog alert = builder.create();
-		alert.show();
-	}
-
-	private void createDialog(final String txt) {
-		AlertDialog.Builder builder = new AlertDialog.Builder(this);
-		builder
-				.setMessage(
-						"Кликнавте на: "
-								+ txt
-								+ ", Дали сакате да ги погледнете линиите кои што поминуваат таму?")
-				.setIcon(R.drawable.icon).setTitle(R.string.app_name)
-				.setCancelable(true).setPositiveButton("Да..",
-						new DialogInterface.OnClickListener() {
-							public void onClick(DialogInterface dialog, int id) {
-
-								ArrayList<String> korisni_linii = new ArrayList<String>();
-
-								DataBaseHelper Db = new DataBaseHelper(null);
-								Db = new DataBaseHelper(getApplicationContext());
-								Db.openDataBase();
-
-								Cursor c = Db.getStanica(txt);
-								if (c.moveToFirst()) {
-									String _id = c.getString(0); // id na
-									// kliknata
-									// stanica...
-									Cursor c2 = Db.getUsefulLinii(_id);
-									if (c2.moveToFirst()) {
-										do {
-											String id_korisna_linija = c2
-													.getString(0);
-											Cursor c3 = Db
-													.getLinija(id_korisna_linija);
-											String ime_linija = c3.getString(0);
-											korisni_linii.add(ime_linija);
-										} while (c2.moveToNext());
-									}
-								}
-
-								String linii = "Следниве линии поминуваат на кликнатата станица: "
-										+ korisni_linii;
-
-								final_dialog(linii);
-
-								Db.close();
-							}
-
-						});
-		builder.setNegativeButton("Откажи",
-				new DialogInterface.OnClickListener() {
-					public void onClick(DialogInterface dialog, int id) {
-						dialog.cancel();
-					}
-				});
-		AlertDialog alert = builder.create();
-		alert.show();
-	}
-
-	private void final_dialog(final String txt) {
-		AlertDialog.Builder builder = new AlertDialog.Builder(this);
-		builder.setMessage(txt).setIcon(R.drawable.icon).setTitle(
-				R.string.app_name).setCancelable(false).setPositiveButton(
-				"OK..", new DialogInterface.OnClickListener() {
-					public void onClick(DialogInterface dialog, int id) {
-					}
-				});
-		AlertDialog alert = builder.create();
-		alert.show();
-	}
-
+	
 }
