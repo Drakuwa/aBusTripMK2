@@ -1,14 +1,16 @@
 package com.app.busmk2;
 
+import java.io.File;
+import java.io.IOException;
+
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
-import android.net.Uri;
 import android.os.Build;
 import android.widget.Toast;
 
-public class Model {
+public class Model extends Activity {
 
 	private Context ctx;
 
@@ -27,17 +29,34 @@ public class Model {
 						Toast.LENGTH_LONG).show();
 	}
 
-	public AlertDialog create_list(final String[] items, Context ctx) {
+	public void first_run() {
+		boolean exists = (new File("/data/data/com.app.busmk2/notwelcomefirst"))
+				.exists();
 
-		AlertDialog.Builder builder = new AlertDialog.Builder(ctx);
-		builder.setTitle("Избери станица:");
-		builder.setItems(items, new DialogInterface.OnClickListener() {
-			public void onClick(DialogInterface dialog, int item) {
-
+		if (!exists) {
+			// Welcome note...
+			AlertDialog.Builder builder = new AlertDialog.Builder(ctx);
+			builder.setMessage(
+					"Добредојдовте во aBusTripMK2, "
+							+ "за повеќе информации и начин на користење, "
+							+ "погледнете во 'More...' делот ").setIcon(
+					R.drawable.icon).setTitle(R.string.app_name).setCancelable(
+					false).setPositiveButton("OK..",
+					new DialogInterface.OnClickListener() {
+						public void onClick(DialogInterface dialog, int id) {
+						}
+					});
+			AlertDialog alert = builder.create();
+			alert.show();
+			try {
+				new File("/data/data/com.app.busmk2/notwelcomefirst")
+						.createNewFile();
+			} catch (IOException e) {
+				e.printStackTrace();
 			}
-		});
-		AlertDialog alert = builder.create();
-		return alert;
-		// alert.show();
+		}
 	}
+	
+	//TODO
+	
 }
