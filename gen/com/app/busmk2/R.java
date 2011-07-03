@@ -144,7 +144,6 @@ public final class R {
         public static final int map=0x7f030007;
         public static final int more_tab=0x7f030008;
         public static final int splash=0x7f030009;
-        public static final int temp=0x7f03000a;
     }
     public static final class string {
         public static final int about1=0x7f040002;

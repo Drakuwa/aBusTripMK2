@@ -8,7 +8,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 public class contact extends Activity {
 	
@@ -40,7 +39,7 @@ public class contact extends Activity {
 		ImageView email = (ImageView) findViewById(R.id.email);
 		email.setOnClickListener(new OnClickListener() {
 			public void onClick(View v2) {
-				if (!(Integer.parseInt(Build.VERSION.SDK) < 10)) {
+				if (!(Integer.parseInt(Build.VERSION.SDK) < 8)) {
 					Intent myIntent = new Intent(Intent.ACTION_VIEW, Uri
 							.parse("mailto:drakuwa@gmail.com"));
 					startActivity(myIntent);
