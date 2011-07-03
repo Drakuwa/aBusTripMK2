@@ -55,6 +55,8 @@ public class map extends MapActivity {
 
 	private boolean offlineVar = false;
 
+	private Model model = new Model(this);
+	
 	@Override
 	protected boolean isRouteDisplayed() {
 		return false;
@@ -113,7 +115,7 @@ public class map extends MapActivity {
 										new calc_stanica().execute(item
 												.getTitle(), lons, lats);
 									} else {
-										final_dialog("Вашата моментална локација не е позната, Ве молиме почекајте, или поставете маркер");
+										model.final_dialog("Вашата моментална локација не е позната, Ве молиме почекајте, или поставете маркер");
 									}
 								}
 							});
@@ -399,17 +401,7 @@ public class map extends MapActivity {
 
 	}
 
-	private void final_dialog(final String txt) {
-		AlertDialog.Builder builder = new AlertDialog.Builder(this);
-		builder.setMessage(txt).setIcon(R.drawable.busmarker).setTitle(
-				R.string.app_name).setCancelable(false).setPositiveButton(
-				"OK..", new DialogInterface.OnClickListener() {
-					public void onClick(DialogInterface dialog, int id) {
-					}
-				});
-		AlertDialog alert = builder.create();
-		alert.show();
-	}
+	
 
 	private void draw(GeoPoint destGeoPoint, GeoPoint final_geo) {
 		dest_station.addOverlay(new OverlayItem(destGeoPoint, "Dest...", " "));
@@ -663,10 +655,10 @@ public class map extends MapActivity {
 				draw(destGeoPoint, final_geo);
 				mc.setCenter(current);
 
-				final_dialog("Појдете до означената постојка со црвено и почекајте автобус со број: "
+				model.final_dialog("Појдете до означената постојка со црвено и почекајте автобус со број: "
 						+ korisni_linii);
 			} else
-				final_dialog("За жал нема постојка во Ваша близина што поминува од овде, побарајте нова станица...");
+				model.final_dialog("За жал нема постојка во Ваша близина што поминува од овде, побарајте нова станица...");
 		}
 	}
 
