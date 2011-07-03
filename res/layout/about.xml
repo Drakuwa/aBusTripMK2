@@ -56,7 +56,7 @@
     		android:layout_width="fill_parent"
     		android:layout_height="wrap_content"
     		android:text="@string/about1"
-    		android:textSize="18dip"
+    		android:textSize="17dip"
     		android:textColor="#061015"
     		android:gravity="center_vertical"
     		android:paddingLeft="10dip"
@@ -68,7 +68,7 @@
     		android:layout_width="fill_parent"
     		android:layout_height="wrap_content"
     		android:text="@string/about2"
-    		android:textSize="18dip"
+    		android:textSize="17dip"
     		android:textColor="#061015"
     		android:gravity="center_vertical"
     		android:paddingLeft="10dip"
@@ -77,6 +77,39 @@
     		android:paddingTop="7dip"
     		></TextView>
     		
+    	</LinearLayout>
+    </LinearLayout>
+    
+    <LinearLayout
+		android:layout_below="@+id/app_about_txt"
+		android:id="@+id/app_about_txt_2"
+    	android:orientation="vertical"
+    	android:layout_width="fill_parent"
+    	android:layout_height="wrap_content"
+    	android:layout_weight="0.80"
+    	android:paddingLeft="20dp"
+    	android:paddingRight="20dp"
+    	android:paddingTop="10dip">
+    	
+    	<LinearLayout
+    		android:orientation="vertical"
+    		android:layout_width="fill_parent"
+    		android:layout_height="wrap_content"
+    		android:background="#fff7fb"
+    		android:layout_marginTop = "10dp">
+    	
+    		<TextView
+    		android:id="@+id/app_about_txt"
+    		android:layout_width="fill_parent"
+    		android:layout_height="wrap_content"
+    		android:text="@string/note"
+    		android:textSize="16dp"
+    		android:textColor="#10203f"
+    		android:gravity="center_vertical"
+			android:paddingLeft="7dip"
+    		android:paddingRight="7dip"
+    		android:paddingTop="10dip"
+    		></TextView>
     	</LinearLayout>
     </LinearLayout>
 

@@ -22,24 +22,24 @@ public class More extends TabActivity{
         intent = new Intent().setClass(this, about.class);
 
         // Initialize a TabSpec for each tab and add it to the TabHost
-        spec = tabHost.newTabSpec("about").setIndicator("About",
+        spec = tabHost.newTabSpec("about").setIndicator("За Апликацијата",
                 res.getDrawable(R.drawable.ic_tab_about))
                       .setContent(intent);
         tabHost.addTab(spec);
         
         intent = new Intent().setClass(this, help.class);
-        spec = tabHost.newTabSpec("help").setIndicator("Help",
+        spec = tabHost.newTabSpec("help").setIndicator("Помош",
                 res.getDrawable(R.drawable.ic_tab_help))
                       .setContent(intent);
         tabHost.addTab(spec);
         
         intent = new Intent().setClass(this, temp.class);
-        spec = tabHost.newTabSpec("contact").setIndicator("Contact",
+        spec = tabHost.newTabSpec("contact").setIndicator("Контакт",
                 res.getDrawable(R.drawable.ic_tab_contact))
                       .setContent(intent);
         tabHost.addTab(spec);
 
-        tabHost.setCurrentTab(1);        
+        tabHost.setCurrentTab(0);        
     }
 
 }
