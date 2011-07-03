@@ -71,6 +71,7 @@
 			android:layout_height="wrap_content"
 			android:paddingTop="15dip"
 			android:paddingLeft="10dip"
+			android:paddingRight="10dip"
 			/>
     		
     		<ImageView
@@ -80,13 +81,22 @@
 			android:layout_height="wrap_content"
 			android:paddingTop="10dip"
 			android:paddingLeft="10dip"
+			android:paddingRight="10dip"
+    		/>
+    		
+    		<ImageView 
+    		android:src="@drawable/email" 
+			android:id="@+id/email" 
+			android:layout_width="wrap_content" 
+			android:layout_height="wrap_content"
+			android:paddingTop="10dip"
+			android:paddingLeft="10dip"
+			android:paddingRight="10dip"
 			android:paddingBottom="20dip"
     		/>
     		
     	</LinearLayout>
     </LinearLayout>
-    
-    <LinearLayout></LinearLayout>
-    
+        
 </RelativeLayout>
 </ScrollView>

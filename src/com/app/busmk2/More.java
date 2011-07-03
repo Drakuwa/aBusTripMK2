@@ -33,7 +33,7 @@ public class More extends TabActivity{
                       .setContent(intent);
         tabHost.addTab(spec);
         
-        intent = new Intent().setClass(this, temp.class);
+        intent = new Intent().setClass(this, contact.class);
         spec = tabHost.newTabSpec("contact").setIndicator("Контакт",
                 res.getDrawable(R.drawable.ic_tab_contact))
                       .setContent(intent);
