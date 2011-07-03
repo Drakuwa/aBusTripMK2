@@ -9,7 +9,6 @@ import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.graphics.drawable.Drawable;
@@ -72,7 +71,7 @@ public class map extends MapActivity {
 		lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 
 		if (!lm.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
-			createGpsDisabledAlert();
+			model.createGpsDisabledAlert();
 		}
 
 		ll = new MyLocationListener();
@@ -205,33 +204,7 @@ public class map extends MapActivity {
 		super.onPause();
 	};
 
-	private void createGpsDisabledAlert() {
-		AlertDialog.Builder builder = new AlertDialog.Builder(this);
-		builder
-				.setMessage(
-						"Вашиот GPS е оневозможен! Потребно е да биде активен за  прецизно пронаоѓање на Вашата локација. Дали би сакале да го овозможите?")
-				.setIcon(R.drawable.icon).setTitle(R.string.app_name)
-				.setCancelable(false).setPositiveButton("Овозможи GPS",
-						new DialogInterface.OnClickListener() {
-							public void onClick(DialogInterface dialog, int id) {
-								showGpsOptions();
-							}
-						});
-		builder.setNegativeButton("Откажи",
-				new DialogInterface.OnClickListener() {
-					public void onClick(DialogInterface dialog, int id) {
-						dialog.cancel();
-					}
-				});
-		AlertDialog alert = builder.create();
-		alert.show();
-	}
-
-	private void showGpsOptions() {
-		Intent gpsOptionsIntent = new Intent(
-				android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS);
-		startActivity(gpsOptionsIntent);
-	}
+	
 
 	@Override
 	public boolean onCreateOptionsMenu(final Menu pMenu) {
@@ -265,7 +238,7 @@ public class map extends MapActivity {
 
 		case MENU_REFRESH:
 			if (!lm.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
-				createGpsDisabledAlert();
+				model.createGpsDisabledAlert();
 			} else
 				lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000,
 						10, ll);

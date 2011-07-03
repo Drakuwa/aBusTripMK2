@@ -10,6 +10,7 @@ import com.google.android.maps.MapController;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.database.Cursor;
 import android.os.Build;
 import android.util.Log;
@@ -156,6 +157,34 @@ public class Model {
 				});
 		AlertDialog alert = builder.create();
 		alert.show();
+	}
+	
+	public void createGpsDisabledAlert() {
+		AlertDialog.Builder builder = new AlertDialog.Builder(ctx);
+		builder
+				.setMessage(
+						"Вашиот GPS е оневозможен! Потребно е да биде активен за  прецизно пронаоѓање на Вашата локација. Дали би сакале да го овозможите?")
+				.setIcon(R.drawable.icon).setTitle(R.string.app_name)
+				.setCancelable(false).setPositiveButton("Овозможи GPS",
+						new DialogInterface.OnClickListener() {
+							public void onClick(DialogInterface dialog, int id) {
+								showGpsOptions();
+							}
+						});
+		builder.setNegativeButton("Откажи",
+				new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialog, int id) {
+						dialog.cancel();
+					}
+				});
+		AlertDialog alert = builder.create();
+		alert.show();
+	}
+
+	private void showGpsOptions() {
+		Intent gpsOptionsIntent = new Intent(
+				android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+		ctx.startActivity(gpsOptionsIntent);
 	}
 
 }
