@@ -45,7 +45,8 @@ public class map extends MapActivity {
 	private GeoPoint current;
 
 	private static final int MENU_MY_LOCATION = Menu.FIRST;
-	private static final int MENU_CLEAR_MAP = MENU_MY_LOCATION + 1;
+	private static final int MENU_REFRESH = MENU_MY_LOCATION + 1;
+	private static final int MENU_CLEAR_MAP = MENU_REFRESH + 1;
 	private static final int MENU_PLACE = MENU_CLEAR_MAP + 1;
 	private static final int MENU_ABOUT = MENU_PLACE + 1;
 
@@ -108,7 +109,7 @@ public class map extends MapActivity {
 												.getLatitudeE6();
 										String lons = Integer.toString(lon);
 										String lats = Integer.toString(lat);
-										
+
 										new calc_stanica().execute(item
 												.getTitle(), lons, lats);
 									} else {
@@ -190,20 +191,21 @@ public class map extends MapActivity {
 			mapOverlays.add(stations);
 		}
 
-		//First run
-		boolean exists = (new File("/data/data/com.app.busmk2/notfirst")).exists(); 
+		// First run
+		boolean exists = (new File("/data/data/com.app.busmk2/notfirst"))
+				.exists();
 
-        if (!exists)
-        {
-        	GeoPoint initial = new GeoPoint(41995912, 21431454);
-        	mc.setZoom(15); mc.setCenter(initial);
-        	try {
+		if (!exists) {
+			GeoPoint initial = new GeoPoint(41995912, 21431454);
+			mc.setZoom(15);
+			mc.setCenter(initial);
+			try {
 				new File("/data/data/com.app.busmk2/notfirst").createNewFile();
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
 			Log.d("xxxx", "First RUN!!! :D");
-        }
+		}
 
 	}
 
@@ -217,7 +219,7 @@ public class map extends MapActivity {
 		AlertDialog.Builder builder = new AlertDialog.Builder(this);
 		builder
 				.setMessage(
-						"Вашиот GPS е оневозможен! Потребно е да биде активиран, за нормално функционирање на апликацијата (пронаоѓање на Вашата локација). Дали би сакале да го овозможите?")
+						"Вашиот GPS е оневозможен! Потребно е да биде активен за  прецизно пронаоѓање на Вашата локација. Дали би сакале да го овозможите?")
 				.setIcon(R.drawable.icon).setTitle(R.string.app_name)
 				.setCancelable(false).setPositiveButton("Овозможи GPS",
 						new DialogInterface.OnClickListener() {
@@ -245,6 +247,8 @@ public class map extends MapActivity {
 	public boolean onCreateOptionsMenu(final Menu pMenu) {
 		pMenu.add(0, MENU_MY_LOCATION, Menu.NONE, "My Location").setIcon(
 				android.R.drawable.ic_menu_mylocation);
+		pMenu.add(0, MENU_REFRESH, Menu.NONE, "Refresh Location").setIcon(
+				android.R.drawable.ic_menu_revert);
 		pMenu.add(0, MENU_CLEAR_MAP, Menu.NONE, "Clear Map").setIcon(
 				android.R.drawable.ic_menu_close_clear_cancel);
 		pMenu.add(0, MENU_PLACE, Menu.NONE, "Place Marker").setIcon(
@@ -269,6 +273,14 @@ public class map extends MapActivity {
 								Toast.LENGTH_SHORT).show();
 			return true;
 
+		case MENU_REFRESH:
+			if (!lm.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+				createGpsDisabledAlert();
+			} else
+				lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000,
+						10, ll);
+			return true;
+
 		case MENU_CLEAR_MAP:
 			dest_station.clear();
 			chosen_station.clear();
@@ -283,7 +295,7 @@ public class map extends MapActivity {
 			showDialog(DIALOG_ABOUT_ID);
 			return true;
 
-		default: 
+		default:
 		}
 		return false;
 	}
@@ -294,9 +306,12 @@ public class map extends MapActivity {
 
 		switch (id) {
 		case DIALOG_ABOUT_ID:
-			return new AlertDialog.Builder(map.this).setIcon(R.drawable.icon)
-					.setTitle(R.string.app_name).setMessage(
-							"Ова апликација користи мапи обезбедени од Google Inc.").setPositiveButton("OK",
+			return new AlertDialog.Builder(map.this)
+					.setIcon(R.drawable.icon)
+					.setTitle(R.string.app_name)
+					.setMessage(
+							"Ова апликација користи мапи обезбедени од Google Inc.")
+					.setPositiveButton("OK",
 							new DialogInterface.OnClickListener() {
 								public void onClick(DialogInterface dialog,
 										int whichButton) {
@@ -409,7 +424,8 @@ public class map extends MapActivity {
 
 		@Override
 		protected void onPreExecute() {
-			//TODO setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_NOSENSOR);
+			// TODO
+			// setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_NOSENSOR);
 			dialog = new ProgressDialog(map.this);
 			dialog.setTitle("Пресметуваме...");
 			dialog.setMessage("Ве молиме почекајте...");
@@ -616,7 +632,8 @@ public class map extends MapActivity {
 		@Override
 		public void onPostExecute(ArrayList<String> izlezni) {
 			dialog.dismiss();
-			//TODO setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR);
+			// TODO
+			// setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR);
 
 			String minim = izlezni.get(0);
 			double min = Double.parseDouble(minim);
