@@ -11,6 +11,8 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 public class contact extends Activity {
+	
+	Model model = new Model(this);
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -38,19 +40,12 @@ public class contact extends Activity {
 		ImageView email = (ImageView) findViewById(R.id.email);
 		email.setOnClickListener(new OnClickListener() {
 			public void onClick(View v2) {
-				if (!(Integer.parseInt(Build.VERSION.SDK) < 8)) {
+				if (!(Integer.parseInt(Build.VERSION.SDK) < 10)) {
 					Intent myIntent = new Intent(Intent.ACTION_VIEW, Uri
 							.parse("mailto:drakuwa@gmail.com"));
 					startActivity(myIntent);
 				} else
-					Toast
-							.makeText(
-									getApplicationContext(),
-									"Android верзија "
-											+ Build.VERSION.RELEASE
-											+ " не подржува директно повикување "
-											+ "на Email клиент. Испратете mail на drakuwa@gmail.com",
-									Toast.LENGTH_LONG).show();
+					model.email_toast();
 			}
 		});
 
