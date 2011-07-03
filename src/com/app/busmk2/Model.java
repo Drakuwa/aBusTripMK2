@@ -4,11 +4,15 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import com.google.android.maps.GeoPoint;
+import com.google.android.maps.MapController;
+
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.database.Cursor;
 import android.os.Build;
+import android.util.Log;
 import android.widget.Toast;
 
 public class Model {
@@ -57,8 +61,22 @@ public class Model {
 			}
 		}
 	}
-	
-	//TODO
+
+	public void first_run_map(MapController mc) {
+		boolean exists = (new File("/data/data/com.app.busmk2/notfirst")).exists();
+		if (!exists) {
+			GeoPoint initial = new GeoPoint(41995912, 21431454);
+			mc.setZoom(15);
+			mc.setCenter(initial);
+			try {
+				new File("/data/data/com.app.busmk2/notfirst").createNewFile();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			Log.d("xxxx", "First RUN!!! :D");
+		}
+	}
+
 	public void final_dialog(final String txt) {
 		AlertDialog.Builder builder = new AlertDialog.Builder(ctx);
 		builder.setMessage(txt).setIcon(R.drawable.busmarker).setTitle(
@@ -70,7 +88,7 @@ public class Model {
 		AlertDialog alert = builder.create();
 		alert.show();
 	}
-	
+
 	public void create_list(final String[] items) {
 
 		AlertDialog.Builder builder = new AlertDialog.Builder(ctx);
@@ -84,7 +102,7 @@ public class Model {
 		AlertDialog alert = builder.create();
 		alert.show();
 	}
-	
+
 	private void createDialog(final String txt) {
 		AlertDialog.Builder builder = new AlertDialog.Builder(ctx);
 		builder
@@ -139,5 +157,5 @@ public class Model {
 		AlertDialog alert = builder.create();
 		alert.show();
 	}
-	
+
 }

@@ -1,6 +1,5 @@
 package com.app.busmk2;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -81,6 +80,15 @@ public class map extends MapActivity {
 		lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000, 10, ll);
 
 		mapOverlays = mapView.getOverlays();
+		
+		mc = mapView.getController();
+		
+		Drawable final_drawable = this.getResources().getDrawable(
+				R.drawable.greenmarker);
+		chosen_station = new MyItemizedOverlay(final_drawable, this);
+		Drawable dest_drawable = this.getResources().getDrawable(
+				R.drawable.redmarker);
+		dest_station = new MyItemizedOverlay(dest_drawable, this);
 
 		Drawable person_drawable = this.getResources().getDrawable(
 				R.drawable.person);
@@ -132,14 +140,7 @@ public class map extends MapActivity {
 				return true;
 			}
 		};
-		Drawable final_drawable = this.getResources().getDrawable(
-				R.drawable.greenmarker);
-		chosen_station = new MyItemizedOverlay(final_drawable, this);
-		Drawable dest_drawable = this.getResources().getDrawable(
-				R.drawable.redmarker);
-		dest_station = new MyItemizedOverlay(dest_drawable, this);
-
-		mc = mapView.getController();
+		
 
 		DataBaseHelper myDb = new DataBaseHelper(null);
 		myDb = new DataBaseHelper(this);
@@ -194,20 +195,7 @@ public class map extends MapActivity {
 		}
 
 		// First run
-		boolean exists = (new File("/data/data/com.app.busmk2/notfirst"))
-				.exists();
-
-		if (!exists) {
-			GeoPoint initial = new GeoPoint(41995912, 21431454);
-			mc.setZoom(15);
-			mc.setCenter(initial);
-			try {
-				new File("/data/data/com.app.busmk2/notfirst").createNewFile();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-			Log.d("xxxx", "First RUN!!! :D");
-		}
+		model.first_run_map(mc);
 
 	}
 
