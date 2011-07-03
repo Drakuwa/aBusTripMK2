@@ -44,6 +44,7 @@
         <activity android:name="a8"/>
         <activity android:name=".about"/>
         <activity android:name=".help"/>
+        <activity android:name=".contact"/>
 
     </application>
 </manifest>

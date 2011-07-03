@@ -3,9 +3,16 @@ package com.app.busmk2;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.graphics.drawable.Drawable;
 
 public class Model {
-
+	
+	private Context ctx;
+	
+	public Model(Context context) {
+		ctx = context;
+	}
+	
 	public AlertDialog create_list(final String[] items, Context ctx) {
 
 		AlertDialog.Builder builder = new AlertDialog.Builder(ctx);
