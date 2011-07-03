@@ -80,7 +80,7 @@ public class Model {
 
 	public void final_dialog(final String txt) {
 		AlertDialog.Builder builder = new AlertDialog.Builder(ctx);
-		builder.setMessage(txt).setIcon(R.drawable.busmarker).setTitle(
+		builder.setMessage(txt).setIcon(R.drawable.icon).setTitle(
 				R.string.app_name).setCancelable(false).setPositiveButton(
 				"OK..", new DialogInterface.OnClickListener() {
 					public void onClick(DialogInterface dialog, int id) {
@@ -186,5 +186,4 @@ public class Model {
 				android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS);
 		ctx.startActivity(gpsOptionsIntent);
 	}
-
 }

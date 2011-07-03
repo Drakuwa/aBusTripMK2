@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.app.AlertDialog;
-import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -48,7 +47,6 @@ public class map extends MapActivity {
 	private static final int MENU_PLACE = MENU_CLEAR_MAP + 1;
 	private static final int MENU_ABOUT = MENU_PLACE + 1;
 
-	private static final int DIALOG_ABOUT_ID = 1;
 	private MapView mapView;
 
 	private boolean offlineVar = false;
@@ -255,37 +253,13 @@ public class map extends MapActivity {
 			return true;
 
 		case MENU_ABOUT:
-			showDialog(DIALOG_ABOUT_ID);
+			model.final_dialog("Ова апликација користи мапи обезбедени од Google Inc.");
+			//showDialog(DIALOG_ABOUT_ID);
 			return true;
 
 		default:
 		}
 		return false;
-	}
-
-	@Override
-	protected Dialog onCreateDialog(int id) {
-		Dialog dialog;
-
-		switch (id) {
-		case DIALOG_ABOUT_ID:
-			return new AlertDialog.Builder(map.this)
-					.setIcon(R.drawable.icon)
-					.setTitle(R.string.app_name)
-					.setMessage(
-							"Ова апликација користи мапи обезбедени од Google Inc.")
-					.setPositiveButton("OK",
-							new DialogInterface.OnClickListener() {
-								public void onClick(DialogInterface dialog,
-										int whichButton) {
-								}
-							}).create();
-
-		default:
-			dialog = null;
-			break;
-		}
-		return dialog;
 	}
 
 	@Override
