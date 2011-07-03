@@ -42,6 +42,8 @@
         <activity android:name="a65b"/>
         <activity android:name="a7"/>
         <activity android:name="a8"/>
+        <activity android:name=".about"/>
+        <activity android:name=".help"/>
 
     </application>
 </manifest>

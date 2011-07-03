@@ -19,7 +19,7 @@ public class More extends TabActivity{
         Intent intent;  // Reusable Intent for each tab
 
         // Create an Intent to launch an Activity for the tab (to be reused)
-        intent = new Intent().setClass(this, temp.class);
+        intent = new Intent().setClass(this, about.class);
 
         // Initialize a TabSpec for each tab and add it to the TabHost
         spec = tabHost.newTabSpec("about").setIndicator("About",
@@ -27,7 +27,7 @@ public class More extends TabActivity{
                       .setContent(intent);
         tabHost.addTab(spec);
         
-        intent = new Intent().setClass(this, temp.class);
+        intent = new Intent().setClass(this, help.class);
         spec = tabHost.newTabSpec("help").setIndicator("Help",
                 res.getDrawable(R.drawable.ic_tab_help))
                       .setContent(intent);

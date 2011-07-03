@@ -2,4 +2,6 @@
 <resources>
     <string name="hello">Hello World, splash!</string>
     <string name="app_name">a Bus Trip MK...</string>
+    <string name="about1">Добредојдовте во aBusTripMK2, втора верзија од realtime планерот за патување и снаоѓање низ јавните градски автобуски линии на град Скопје.</string>
+    <string name="about2">За полесна навигација низ апликацијата, прочитајте ги параграфите во "Помош" делот...</string>
 </resources>
