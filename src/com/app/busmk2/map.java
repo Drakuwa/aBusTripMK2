@@ -361,7 +361,7 @@ public class map extends MapActivity {
 		}
 
 		protected ArrayList<String> doInBackground(String... vlezni) {
-
+			
 			String itemdesc = vlezni[0];
 			String final_lon = vlezni[1];
 			String final_lat = vlezni[2];
