@@ -1,4 +1,4 @@
-package com.app.busmk2;
+package com.app.busmk2.activity;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -22,6 +22,10 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.widget.Toast;
 
+import com.app.busmk2.R;
+import com.app.busmk2.model.DataBaseHelper;
+import com.app.busmk2.model.Model;
+import com.app.busmk2.model.MyItemizedOverlay;
 import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapActivity;
 import com.google.android.maps.MapController;
@@ -230,7 +234,7 @@ public class map extends MapActivity {
 				Toast
 						.makeText(
 								getApplicationContext(),
-								"You're location is unknown, place a marker or wait for GPS...",
+								"Вашата локација е непозната, поставете маркер или почекајте GPS...",
 								Toast.LENGTH_SHORT).show();
 			return true;
 

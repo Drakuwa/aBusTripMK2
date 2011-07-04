@@ -1,4 +1,7 @@
-package com.app.busmk2;
+package com.app.busmk2.activity;
+
+import com.app.busmk2.R;
+import com.app.busmk2.model.Model;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -42,8 +45,7 @@ public class main extends Activity {
 		ImageView mapa = (ImageView) findViewById(R.id.map);
 		mapa.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
-				Intent myIntent = new Intent();
-				myIntent.setClassName("com.app.busmk2", "com.app.busmk2.map");
+				Intent myIntent = new Intent(main.this, map.class);
 				startActivity(myIntent);
 			}
 		});
@@ -51,8 +53,7 @@ public class main extends Activity {
 		ImageView lista = (ImageView) findViewById(R.id.list);
 		lista.setOnClickListener(new OnClickListener() {
 			public void onClick(View v2) {
-				Intent myIntent = new Intent();
-				myIntent.setClassName("com.app.busmk2", "com.app.busmk2.list");
+				Intent myIntent = new Intent(main.this, list.class);
 				startActivity(myIntent);
 			}
 		});
@@ -60,8 +61,7 @@ public class main extends Activity {
 		ImageView linii = (ImageView) findViewById(R.id.lines);
 		linii.setOnClickListener(new OnClickListener() {
 			public void onClick(View v2) {
-				Intent myIntent = new Intent();
-				myIntent.setClassName("com.app.busmk2", "com.app.busmk2.lines");
+				Intent myIntent = new Intent(main.this, lines.class);
 				startActivity(myIntent);
 			}
 		});
@@ -95,8 +95,7 @@ public class main extends Activity {
 		ImageView more = (ImageView) findViewById(R.id.more);
 		more.setOnClickListener(new OnClickListener() {
 			public void onClick(View v2) {
-				Intent myIntent = new Intent();
-				myIntent.setClassName("com.app.busmk2", "com.app.busmk2.More");
+				Intent myIntent = new Intent(main.this, More.class);
 				startActivity(myIntent);
 			}
 		});

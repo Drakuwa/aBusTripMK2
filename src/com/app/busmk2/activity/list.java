@@ -1,7 +1,11 @@
-package com.app.busmk2;
+package com.app.busmk2.activity;
 
 import java.io.IOException;
 import java.util.ArrayList;
+
+import com.app.busmk2.model.DataBaseHelper;
+import com.app.busmk2.R;
+import com.app.busmk2.model.Model;
 
 import android.app.Activity;
 import android.database.Cursor;
@@ -11,8 +15,18 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ImageView;
 
+/**
+ * An activity class that shows a list of ImageViews, with each one of them
+ * showing a dialog of selectable items.
+ * 
+ * @author drakuwa
+ * 
+ */
 public class list extends Activity {
 
+	/**
+	 * Set initial variables that will be used.
+	 */
 	ArrayList<String> gjorce = new ArrayList<String>();
 	ArrayList<String> karpos = new ArrayList<String>();
 	ArrayList<String> centar = new ArrayList<String>();
@@ -23,13 +37,22 @@ public class list extends Activity {
 	ArrayList<String> butel = new ArrayList<String>();
 	ArrayList<String> shutka = new ArrayList<String>();
 
+	// Initialize the model.
 	Model model = new Model(this);
 
+	/**
+	 * An override of the onCreate method that initializes the ImageView objects
+	 * and initializes the array lists with values from the database.
+	 */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.list);
 
+		/**
+		 * Open the database and fill in the array lists with values read from
+		 * the corresponding database tables.
+		 */
 		DataBaseHelper myDb = new DataBaseHelper(null);
 		myDb = new DataBaseHelper(this);
 
@@ -57,7 +80,7 @@ public class list extends Activity {
 			myDb.getReadableDatabase();
 
 			Cursor c = myDb.getStanici();
-			
+
 			if (c.moveToFirst()) {
 				do {
 					String ime = c.getString(1);
@@ -98,6 +121,10 @@ public class list extends Activity {
 
 			myDb.close();
 		}
+
+		/**
+		 * Create string arrays from the array lists.
+		 */
 		final String gjorcelist[] = (String[]) gjorce.toArray(new String[gjorce
 				.size()]);
 		final String karposlist[] = (String[]) karpos.toArray(new String[karpos
@@ -117,6 +144,10 @@ public class list extends Activity {
 		final String shutkalist[] = (String[]) shutka.toArray(new String[shutka
 				.size()]);
 
+		/**
+		 * The next 9 ImageView variables call the create_list() method from the
+		 * model, passing an array of strings to it.
+		 */
 		ImageView aer = (ImageView) findViewById(R.id.op_aerodrom);
 		aer.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
@@ -181,7 +212,4 @@ public class list extends Activity {
 		});
 	}
 
-	
-
-	
 }

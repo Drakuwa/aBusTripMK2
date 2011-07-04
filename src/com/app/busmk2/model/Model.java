@@ -1,9 +1,10 @@
-package com.app.busmk2;
+package com.app.busmk2.model;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import com.app.busmk2.R;
 import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapController;
 

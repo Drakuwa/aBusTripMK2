@@ -1,4 +1,6 @@
-package com.app.busmk2;
+package com.app.busmk2.activity;
+
+import com.app.busmk2.R;
 
 import android.app.Activity;
 import android.content.Intent;

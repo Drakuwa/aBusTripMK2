@@ -1,4 +1,4 @@
-package com.app.busmk2;
+package com.app.busmk2.model;
 
 import java.util.ArrayList;
 

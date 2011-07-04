@@ -14,18 +14,28 @@ import android.widget.ImageView;
 
 /**
  * Activity class that manages the given contact activity.
+ * 
  * @author drakuwa
- *
+ * 
  */
 public class contact extends Activity {
-	
+
+	// Initialization of the model.
 	Model model = new Model(this);
 
+	/**
+	 * An override of the onCreate method that initializes the ImageView objects
+	 */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.contact);
 
+		/**
+		 * The next 2 ImageView variables start new activities, opening the
+		 * application profiles on Twitter and Facebook.
+		 * 
+		 */
 		ImageView twitter = (ImageView) findViewById(R.id.twitter);
 		twitter.setOnClickListener(new OnClickListener() {
 			public void onClick(View v2) {
@@ -44,6 +54,11 @@ public class contact extends Activity {
 			}
 		});
 
+		/**
+		 * An ImageView variable that calls the default e-mail client of the
+		 * Android device, if the release version of the OS is 2.2 or newer, and
+		 * shows a Toast message if the release version is older.
+		 */
 		ImageView email = (ImageView) findViewById(R.id.email);
 		email.setOnClickListener(new OnClickListener() {
 			public void onClick(View v2) {

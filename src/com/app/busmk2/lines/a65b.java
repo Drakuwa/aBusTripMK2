@@ -1,37 +1,41 @@
-package com.app.busmk2;
+package com.app.busmk2.lines;
+
+import com.app.busmk2.R;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.view.Gravity;
-import android.view.View;
-import android.view.ViewGroup;
 import android.webkit.WebView;
-import android.widget.FrameLayout;
 
+/**
+ * A simple WebView activity class that shows a picture. A WebView is used
+ * because of its native zoom controls, and the support for multitouch zoom
+ * (pinch to zoom).
+ * 
+ * @author drakuwa
+ * 
+ */
 public class a65b extends Activity {
-    
-	private WebView myWebView;
-	private static final FrameLayout.LayoutParams ZOOM_PARAMS =
-	new FrameLayout.LayoutParams(
-	ViewGroup.LayoutParams.FILL_PARENT,
-	ViewGroup.LayoutParams.WRAP_CONTENT,
-	Gravity.BOTTOM);
-	
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.line_pic);
-        
-        this.setContentView(R.layout.line_pic);
-        this.myWebView = (WebView) this.findViewById(R.id.line_pic);
-        
-        FrameLayout mContentView = (FrameLayout) getWindow().
-        getDecorView().findViewById(android.R.id.content);
-        final View zoom = this.myWebView.getZoomControls();
-        mContentView.addView(zoom, ZOOM_PARAMS);
-        zoom.setVisibility(View.GONE);
 
-        this.myWebView.loadUrl("file:///android_asset/a65b.jpg");
-        //this.myWebView.setBackgroundResource(R.drawable.a65b);
-    }
+	private WebView myWebView;
+
+	/**
+	 * An override of the onCreate method that initializes layout, zoom controls
+	 * and source of the picture.
+	 */
+	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.line_pic);
+
+		//Initialize the layout, and connect the layout object with the webView
+		this.setContentView(R.layout.line_pic);
+		this.myWebView = (WebView) this.findViewById(R.id.line_pic);
+
+		//Add the native zoom controls.
+		myWebView.getSettings().setSupportZoom(true);
+		myWebView.getSettings().setBuiltInZoomControls(true);
+
+		//Load the picture from the given file location.
+		this.myWebView.loadUrl("file:///android_asset/a65b.jpg");
+	}
 }
