@@ -16,14 +16,30 @@ import android.os.Build;
 import android.util.Log;
 import android.widget.Toast;
 
+/**
+ * A model class that resolves some of the business logic in the application.
+ * Also as a part of the MVC(Model View Controller) programming pattern. It
+ * presents changes to the UI thread through the Controller classes.
+ * 
+ * @author drakuwa
+ */
 public class Model {
 
 	private Context ctx;
 
+	/**
+	 * Constructor of the Model class which initializes the activity context.
+	 * 
+	 * @param context
+	 */
 	public Model(Context context) {
 		ctx = context;
 	}
 
+	/**
+	 * Method that creates and shows a Toast message with the specified Android
+	 * release version.
+	 */
 	public void email_toast() {
 		Toast
 				.makeText(
@@ -35,6 +51,12 @@ public class Model {
 						Toast.LENGTH_LONG).show();
 	}
 
+	/**
+	 * Method that checks if the application is run for the first time. It
+	 * checks for the existence of an empty file in the application folder, and
+	 * if it doesn't it creates an AlertDialog with the welcome message, and it
+	 * creates the file.
+	 */
 	public void first_run() {
 		boolean exists = (new File("/data/data/com.app.busmk2/notwelcomefirst"))
 				.exists();
@@ -63,8 +85,18 @@ public class Model {
 		}
 	}
 
+	/**
+	 * Method that checks if the map is accessed for the first time. If it is
+	 * the first time, the method positions the map in the center of Skopje.
+	 * This function uses the same method of checking as the previous
+	 * first_run(). The parameter passed is the MapController which is used to
+	 * manipulate the state of the MapActivity
+	 * 
+	 * @param mc
+	 */
 	public void first_run_map(MapController mc) {
-		boolean exists = (new File("/data/data/com.app.busmk2/notfirst")).exists();
+		boolean exists = (new File("/data/data/com.app.busmk2/notfirst"))
+				.exists();
 		if (!exists) {
 			GeoPoint initial = new GeoPoint(41995912, 21431454);
 			mc.setZoom(15);
@@ -78,6 +110,12 @@ public class Model {
 		}
 	}
 
+	/**
+	 * Method that creates and shows an AlertDialog with a message passed with
+	 * the txt parameter, and a PositiveButton "OK..."
+	 * 
+	 * @param txt
+	 */
 	public void final_dialog(final String txt) {
 		AlertDialog.Builder builder = new AlertDialog.Builder(ctx);
 		builder.setMessage(txt).setIcon(R.drawable.icon).setTitle(
@@ -90,6 +128,13 @@ public class Model {
 		alert.show();
 	}
 
+	/**
+	 * Method that creates a dialog with a list of selectable items passed with
+	 * the items parameter (an array of strings), and calls createDialog()
+	 * method on click.
+	 * 
+	 * @param items
+	 */
 	public void create_list(final String[] items) {
 
 		AlertDialog.Builder builder = new AlertDialog.Builder(ctx);
@@ -104,6 +149,16 @@ public class Model {
 		alert.show();
 	}
 
+	/**
+	 * Method that creates a dialog window asking if the user wants to access
+	 * the given functionality, and performs a database search on positive
+	 * answer, for the given txt parameter. The algorithm searches for the
+	 * appearance of the bus station with the name given in the txt parameter,
+	 * in the bus lines database table, and displays the bus lines which pass
+	 * through that station
+	 * 
+	 * @param txt
+	 */
 	private void createDialog(final String txt) {
 		AlertDialog.Builder builder = new AlertDialog.Builder(ctx);
 		builder
@@ -125,8 +180,7 @@ public class Model {
 								Cursor c = Db.getStanica(txt);
 								if (c.moveToFirst()) {
 									String _id = c.getString(0); // id na
-									// kliknata
-									// stanica...
+									// kliknata stanica...
 									Cursor c2 = Db.getUsefulLinii(_id);
 									if (c2.moveToFirst()) {
 										do {
@@ -158,7 +212,11 @@ public class Model {
 		AlertDialog alert = builder.create();
 		alert.show();
 	}
-	
+
+	/**
+	 * Method that creates and shows a GPS Disabled alert, and calls the
+	 * showGpsOptions() method on positive click.
+	 */
 	public void createGpsDisabledAlert() {
 		AlertDialog.Builder builder = new AlertDialog.Builder(ctx);
 		builder
@@ -181,6 +239,10 @@ public class Model {
 		alert.show();
 	}
 
+	/**
+	 * Method that calls the Location settings and allows the user to enable or
+	 * disable the GPS
+	 */
 	private void showGpsOptions() {
 		Intent gpsOptionsIntent = new Intent(
 				android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS);
