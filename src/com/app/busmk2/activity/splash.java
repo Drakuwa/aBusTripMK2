@@ -9,7 +9,7 @@ import android.os.Handler;
 
 /**
  * First activity shown in the application, and a splash window. This class
- * shows a splash screen and dismisses it after a while
+ * shows a splash screen and dismisses it after a while.
  * 
  * @author drakuwa
  */

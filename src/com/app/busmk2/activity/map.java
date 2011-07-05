@@ -33,8 +33,20 @@ import com.google.android.maps.MapView;
 import com.google.android.maps.Overlay;
 import com.google.android.maps.OverlayItem;
 
+/**
+ * Map activity class which handles the main functionality of this application.
+ * This class shows the bus stops and enables the user to choose between them,
+ * so he can get the closest to him bus stop, and the useful bus line numbers
+ * that will take him to his wanted destination.
+ * 
+ * @author drakuwa
+ * 
+ */
 public class map extends MapActivity {
 
+	/**
+	 * Set initial variables that will be used
+	 */
 	private LocationManager lm;
 	private LocationListener ll;
 	private MapController mc;
@@ -45,6 +57,9 @@ public class map extends MapActivity {
 	private List<Overlay> mapOverlays;
 	private GeoPoint current;
 
+	/**
+	 * Set initial menu variables
+	 */
 	private static final int MENU_MY_LOCATION = Menu.FIRST;
 	private static final int MENU_REFRESH = MENU_MY_LOCATION + 1;
 	private static final int MENU_CLEAR_MAP = MENU_REFRESH + 1;
@@ -55,35 +70,50 @@ public class map extends MapActivity {
 
 	private boolean offlineVar = false;
 
+	// Initialize the model with the activities context.
 	private Model model = new Model(this);
-	
+
+	// default needed override of the isRouteDiplayed() method
 	@Override
 	protected boolean isRouteDisplayed() {
 		return false;
 	}
 
+	/**
+	 * an override of the onCreate method that initializes the map and it
+	 * overlays.
+	 */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.map);
 
+		// connect the map with its layout and set the default zoom controls.
 		mapView = (MapView) findViewById(R.id.mapview);
 		mapView.setBuiltInZoomControls(true);
 
+		// initialize the location manager variable and call the model method if
+		// the GPS is disabled
 		lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 
 		if (!lm.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
 			model.createGpsDisabledAlert();
 		}
 
+		// create a new location listener and request a location update.
 		ll = new MyLocationListener();
 
 		lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000, 10, ll);
 
+		// initialize the map overlays.
 		mapOverlays = mapView.getOverlays();
-		
+
+		// initialize the map controller.
 		mc = mapView.getController();
-		
+
+		/**
+		 * Initialize the map marker drawables and the MyItemizedOverlay lists.
+		 */
 		Drawable final_drawable = this.getResources().getDrawable(
 				R.drawable.greenmarker);
 		chosen_station = new MyItemizedOverlay(final_drawable, this);
@@ -99,6 +129,17 @@ public class map extends MapActivity {
 				R.drawable.busmarker);
 		stations = new MyItemizedOverlay(station_drawable, this) {
 
+			/**
+			 * When initializing the "stations" list of overlay items, override
+			 * the onTap method just for station overlay items, so that we can
+			 * call a method only on bus stop tap.
+			 * 
+			 * When clicked on a bus stop, create an AlertDialog asking the user
+			 * if he wants to get the closest bus stop/line number that will
+			 * take him to this location, and call an AsyncTask that will
+			 * calculate the result while showing a progress dialog, if the
+			 * current location is known (placed marker or GPS...).
+			 */
 			@Override
 			public boolean onTap(int index) {
 				final OverlayItem item = stations.get(index);
@@ -124,7 +165,8 @@ public class map extends MapActivity {
 										new calc_stanica().execute(item
 												.getTitle(), lons, lats);
 									} else {
-										model.final_dialog("Вашата моментална локација не е позната, Ве молиме почекајте, или поставете маркер");
+										model
+												.final_dialog("Вашата моментална локација не е позната, Ве молиме почекајте, или поставете маркер");
 									}
 								}
 							});
@@ -141,8 +183,11 @@ public class map extends MapActivity {
 				return true;
 			}
 		};
-		
 
+		/**
+		 * Open the database and read the location of all the bus stops, and
+		 * place them on the map in the "stations" overlay item list.
+		 */
 		DataBaseHelper myDb = new DataBaseHelper(null);
 		myDb = new DataBaseHelper(this);
 
@@ -195,19 +240,26 @@ public class map extends MapActivity {
 			mapOverlays.add(stations);
 		}
 
-		// First run
+		/**
+		 * Call to the model method which checks if the map is ran for the first
+		 * time, and if it is, it positions the map in the center of Skopje.
+		 */
 		model.first_run_map(mc);
 
 	}
 
+	/**
+	 * On pause, stop the GPS location search.
+	 */
 	@Override
 	protected void onPause() {
 		lm.removeUpdates(ll);
 		super.onPause();
 	};
 
-	
-
+	/**
+	 * Initialize the options menu with the given labels and icons.
+	 */
 	@Override
 	public boolean onCreateOptionsMenu(final Menu pMenu) {
 		pMenu.add(0, MENU_MY_LOCATION, Menu.NONE, "My Location").setIcon(
@@ -224,10 +276,16 @@ public class map extends MapActivity {
 		return true;
 	}
 
+	/**
+	 * An override of the menu item select method that adds some useful
+	 * functionalities to this part of the application.
+	 */
 	@Override
 	public boolean onMenuItemSelected(int featureId, MenuItem item) {
 		switch (item.getItemId()) {
 		case MENU_MY_LOCATION:
+			// if the current location is known, centar the map there, else show
+			// a toast message.
 			if (current != null)
 				mc.animateTo(current);
 			else
@@ -239,6 +297,8 @@ public class map extends MapActivity {
 			return true;
 
 		case MENU_REFRESH:
+			// if the GPS is enabled, refresh the location, else give gps
+			// disabled alert.
 			if (!lm.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
 				model.createGpsDisabledAlert();
 			} else
@@ -247,18 +307,24 @@ public class map extends MapActivity {
 			return true;
 
 		case MENU_CLEAR_MAP:
+			// clear the destination and closest station markings (green and red
+			// transparent circles).
 			dest_station.clear();
 			chosen_station.clear();
 			mapView.invalidate();
 			return true;
 
 		case MENU_PLACE:
+			// boolean variable that enables the user to place a marker of its
+			// location on the map.
 			offlineVar = true;
 			return true;
 
 		case MENU_ABOUT:
-			model.final_dialog("Ова апликација користи мапи обезбедени од Google Inc.");
-			//showDialog(DIALOG_ABOUT_ID);
+			// calls a model method showing a dialog window with the given text.
+			model
+					.final_dialog("Ова апликација користи мапи обезбедени од Google Inc.");
+			// showDialog(DIALOG_ABOUT_ID);
 			return true;
 
 		default:
@@ -266,10 +332,14 @@ public class map extends MapActivity {
 		return false;
 	}
 
+	/**
+	 * An override of the touch event listener. If the offlineVar is true, call
+	 * a method to handle the touch event, and set the variable to false, so
+	 * that the next touch event wont be considered, unless the variable is
+	 * again set true.
+	 */
 	@Override
 	public boolean dispatchTouchEvent(MotionEvent event) {
-		// demek da ima promenliva ako kliknesh na oflajn mod tga da ga povika
-		// handlePress
 		if (offlineVar) {
 			handlePress(event);
 			offlineVar = false;
@@ -277,6 +347,14 @@ public class map extends MapActivity {
 		return super.dispatchTouchEvent(event);
 	}
 
+	/**
+	 * If this method is called, the user wanted to set its location rather then
+	 * waiting for GPS to find it. The method gets the map pixel projection of
+	 * the touch event and places a marker there, removing previously placed
+	 * location markers.
+	 * 
+	 * @param event
+	 */
 	private void handlePress(MotionEvent event) {
 		if (event.getAction() == MotionEvent.ACTION_DOWN) {
 			// A new touch has been detected
@@ -291,8 +369,21 @@ public class map extends MapActivity {
 		}
 	}
 
+	/**
+	 * A small override and change of the LocationListener class which extends
+	 * the method called on changed location.
+	 * 
+	 * @author drakuwa
+	 * 
+	 */
 	public class MyLocationListener implements LocationListener {
 
+		/**
+		 * If the GPS finds the users location it shows a toast message of the
+		 * location, and it places a marker on the found location, deleting any
+		 * previously placed markers on the map, and removing the location
+		 * listener for battery save.
+		 */
 		public void onLocationChanged(Location loc) {
 
 			if (loc != null) {
@@ -340,8 +431,13 @@ public class map extends MapActivity {
 
 	}
 
-	
-
+	/**
+	 * Method that places markers on the final (clicked) bus stop, and the
+	 * closest bus stop to the user.
+	 * 
+	 * @param destGeoPoint
+	 * @param final_geo
+	 */
 	private void draw(GeoPoint destGeoPoint, GeoPoint final_geo) {
 		dest_station.addOverlay(new OverlayItem(destGeoPoint, "Dest...", " "));
 		chosen_station.addOverlay(new OverlayItem(final_geo, "Fin...", " "));
@@ -349,14 +445,23 @@ public class map extends MapActivity {
 		mapOverlays.add(chosen_station);
 	}
 
+	/**
+	 * An asynchronous task class that calculates the closest useful bus stop to
+	 * the user, and the useful bus line numbers, showing a progress dialog
+	 * while doing the calculations.
+	 * 
+	 * @author drakuwa
+	 * 
+	 */
 	public class calc_stanica extends
 			AsyncTask<String, Void, ArrayList<String>> {
 		ProgressDialog dialog;
 
+		/**
+		 * On PreExecute, initialize and show the progress dialog.
+		 */
 		@Override
 		protected void onPreExecute() {
-			// TODO
-			// setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_NOSENSOR);
 			dialog = new ProgressDialog(map.this);
 			dialog.setTitle("Пресметуваме...");
 			dialog.setMessage("Ве молиме почекајте...");
@@ -364,12 +469,19 @@ public class map extends MapActivity {
 			dialog.show();
 		}
 
+		/**
+		 * what to do in background while showing the progress dialog.
+		 */
 		protected ArrayList<String> doInBackground(String... vlezni) {
-			
+
+			/**
+			 * Get the input parameters.
+			 */
 			String itemdesc = vlezni[0];
 			String final_lon = vlezni[1];
 			String final_lat = vlezni[2];
 
+			// Initialize and open the database.
 			DataBaseHelper db = new DataBaseHelper(null);
 			db = new DataBaseHelper(getApplicationContext());
 
@@ -386,6 +498,7 @@ public class map extends MapActivity {
 
 			db.getReadableDatabase();
 
+			// Create some later needed variables.
 			double min = 2000;
 			GeoPoint g = null;
 			ArrayList<String> korisni_linii = new ArrayList<String>();
@@ -394,12 +507,14 @@ public class map extends MapActivity {
 			boolean b = false;
 			boolean d = false;
 
+			// Get information for the clicked bus stop.
 			Cursor c = db.getStanica(itemdesc);
 			if (c.moveToFirst()) {
-				String _id = c.getString(0); // id na kliknata stanica...
+				String _id = c.getString(0); // id of the clicked station.
 
 				// Log.d("xxx", "ID na Kliknata Stanica: " + _id);
 
+				// Get the lines that contain the given bus stop.
 				Cursor c2 = db.getUsefulLinii(_id);
 				if (c2.moveToFirst()) {
 					do {
@@ -408,9 +523,12 @@ public class map extends MapActivity {
 						// id_korisna_linija);
 						int newmin = 3000;
 
+						// Get the sequence number of the bus stop.
 						Cursor br = db.getRbr(_id, id_korisna_linija);
 						int rbr_finaldest = br.getInt(0);
 
+						// Get all the bus stops of the given useful line, so
+						// you can search for the closest one to your location.
 						Cursor c3 = db.getUsefulStanici(id_korisna_linija);
 						if (c3.moveToFirst()) {
 							do {
@@ -427,13 +545,17 @@ public class map extends MapActivity {
 								// Log.d("xxx", "ID na Korisni Stanice: " +
 								// id_korisna_stanica);
 
+								// If current location is unknown (should not
+								// happen, but just in case) break.
 								if (current == null) {
 									break;
 								}
 
+								// Get the geo coordinates of the current
+								// checked bus stop.
 								Cursor c4 = db
 										.getLocationStanici(id_korisna_stanica);
-								// c4 ima samo eden rezultat
+								// c4 has only one result.
 								if (c4.moveToFirst()) {
 									glon = c4.getDouble(0);
 									glat = c4.getDouble(1);
@@ -443,6 +565,9 @@ public class map extends MapActivity {
 
 									GeoPoint stanica = new GeoPoint(lon, lat);
 
+									// turn the geopoints into location
+									// variables so we can calculate the
+									// distance between them.
 									Location currentLoc = new Location(
 											"current");
 
@@ -459,12 +584,12 @@ public class map extends MapActivity {
 									stanicaLoc.setLongitude(stanica
 											.getLongitudeE6() / 1E6);
 
+									// Calculate the distance.
 									double rastojanie = currentLoc
 											.distanceTo(stanicaLoc);
 
-									// int rastojanie =
-									// 0;//current.distanceTo(stanica);
-
+									// Check if the current stations that is
+									// being analyzed is on the right direction.
 									if (rbr_finaldest > rbr_currentdest
 											&& nasoka_currentdest
 													.equalsIgnoreCase("A")) {
@@ -489,6 +614,9 @@ public class map extends MapActivity {
 										}
 									}
 
+									// Check if there is another line passing
+									// through the given current closest bus
+									// stop to the user.
 									if (min == rastojanie) {// najdena e linija
 										// shto pominuva na
 										// ista stanica
@@ -512,6 +640,9 @@ public class map extends MapActivity {
 							} while (c3.moveToNext());
 						}
 
+						// Check if there was a new minimum distance found,
+						// clear the list with previously found minimal distance
+						// bus stops, and add this bus stop to the empty list.
 						if (d) {
 							// Log.d("xxx",
 							// "VLEZENO E VO D!!! - za najden pomal minimum...");
@@ -521,7 +652,12 @@ public class map extends MapActivity {
 							korisni_linii.add(ime_linija);
 							d = false;
 							b = false;
-						} else if (b) {
+						}
+						// If there is a same minimum found, it means that
+						// another bus line passes through the destionation bus
+						// stop, and the closest one until now, so add this
+						// station to the list of useful bus lines.
+						else if (b) {
 							// Log.d("xxx",
 							// "VLEZENO E VO B!!! - za najden ist minimum...");
 							Cursor cX = db.getLinija(id_korisna_linija);
@@ -534,6 +670,8 @@ public class map extends MapActivity {
 			}
 			db.close();
 
+			// Initialize an array list of strings, to pass the final results to
+			// the onPostExecute method.
 			ArrayList<String> izlezni = new ArrayList<String>();
 			String korlin = korisni_linii.toString();
 			String minim = Double.toString(min);
@@ -547,25 +685,35 @@ public class map extends MapActivity {
 			String closest_lon = Integer.toString(lon);
 			String closest_lat = Integer.toString(lat);
 
+			// add the calculated minimum distance, which will be compared
+			// later.
 			izlezni.add(minim);
 
+			// add the longitude and latitude of the closest bus stop.
 			izlezni.add(closest_lon);
 			izlezni.add(closest_lat);
 
+			// add the longitude and latitude of the final (clicked destination)
+			// bus stop.
 			izlezni.add(final_lon);
 			izlezni.add(final_lat);
 
+			// add the list of useful bus lines (ones that can take the user
+			// from closest bus stop to destination bus stop).
 			izlezni.add(korlin);
 
 			return izlezni;
 		}
 
+		/**
+		 * What to do after the calculations are finished.
+		 */
 		@Override
 		public void onPostExecute(ArrayList<String> izlezni) {
+			// Remove the progress dialog.
 			dialog.dismiss();
-			// TODO
-			// setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR);
 
+			// Get the needed GeoPoints.
 			String minim = izlezni.get(0);
 			double min = Double.parseDouble(minim);
 
@@ -587,6 +735,11 @@ public class map extends MapActivity {
 
 			String korisni_linii = izlezni.get(5);
 
+			/**
+			 * If the calculated closest bus stop is closer than 2000m to the
+			 * user, show the results, else show a dialog explaining that no
+			 * good results were found
+			 */
 			if (min < 2000) {
 
 				GeoPoint destGeoPoint = g;
@@ -594,10 +747,12 @@ public class map extends MapActivity {
 				draw(destGeoPoint, final_geo);
 				mc.setCenter(current);
 
-				model.final_dialog("Појдете до означената постојка со црвено и почекајте автобус со број: "
-						+ korisni_linii);
+				model
+						.final_dialog("Појдете до означената постојка со црвено и почекајте автобус со број: "
+								+ korisni_linii);
 			} else
-				model.final_dialog("За жал нема постојка во Ваша близина што поминува од овде, побарајте нова станица...");
+				model
+						.final_dialog("За жал нема постојка во Ваша близина што поминува од овде, побарајте нова станица...");
 		}
 	}
 
