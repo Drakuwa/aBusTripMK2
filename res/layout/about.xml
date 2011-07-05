@@ -109,6 +109,7 @@
 			android:paddingLeft="7dip"
     		android:paddingRight="7dip"
     		android:paddingTop="10dip"
+    		android:paddingBottom="10dip"
     		></TextView>
     	</LinearLayout>
     </LinearLayout>
