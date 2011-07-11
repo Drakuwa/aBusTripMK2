@@ -2,4 +2,6 @@
 <com.google.android.maps.MapView
 	xmlns:android="http://schemas.android.com/apk/res/android" android:id="@+id/mapview"
 	android:layout_width="fill_parent" android:layout_height="fill_parent"
-	android:clickable="true" android:apiKey="0WeC5mnE0nkqLdlIIgFZN0cOc77Zg1lShc6QQDw" />
+	android:clickable="true" android:apiKey="0WeC5mnE0nkqxhH2ll9nYfK2ZB99jhxhj4GrlTQ" />
+	
+	<!--  debug key is: 0WeC5mnE0nkqLdlIIgFZN0cOc77Zg1lShc6QQDw -->
